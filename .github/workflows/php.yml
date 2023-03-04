@@ -10,10 +10,8 @@ permissions:
   contents: read
 
 jobs:
-  build:
-
+  integration:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
 
@@ -37,3 +35,14 @@ jobs:
 
     # - name: Run test suite
     #   run: composer run-script test
+
+  todo:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - run: |
+      if grep --exclude-dir={.git,.github,vendor} -rE "TODO|FIXME"; then
+        exit 1
+      else
+        echo "All good"
+      fi
