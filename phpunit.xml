@@ -14,7 +14,8 @@
          verbose="true">
     <testsuites>
         <testsuite name="default">
-            <file>tests/unittest.php</file>          
+            <file>tests/unittest.php</file>     
+            <file>tests/routetest.php</file>
         </testsuite>
     </testsuites>
 

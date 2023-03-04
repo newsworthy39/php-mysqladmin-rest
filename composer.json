@@ -22,7 +22,10 @@
     ],
     "require": {
         "league/container": "^4.2",
-        "vlucas/phpdotenv": "^5.5"
+        "vlucas/phpdotenv": "^5.5",
+        "league/route": "^5.1",
+        "laminas/laminas-diactoros": "^2.17",
+        "laminas/laminas-httphandlerrunner": "^2.2"
     },
     "scripts": {
         "test": "vendor/bin/phpunit" 
