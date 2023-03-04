@@ -8,7 +8,7 @@
     "license": "0BSD",
     "autoload": {
         "psr-4": {
-            "redcathedral\\phpmysqladminrest\\": "src/"
+            "redcathedral\\phpMySQLAdminrest\\": "src/"
         },
         "files": [
             "config/app.php"
@@ -24,6 +24,6 @@
         "league/container": "^4.2"
     },
     "scripts": {
-        "test": "vendor/bin/phpunit tests/" 
+        "test": "vendor/bin/phpunit" 
     }
 }

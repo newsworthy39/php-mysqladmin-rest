@@ -1,10 +1,10 @@
 <?php
 
-namespace redcathedral\phpmysqladminrest;
+namespace redcathedral\phpMySQLAdminrest;
 
 use mysqli;
 
-class mysqladmin
+class MySQLAdmin
 {
     private $mysql_dbh;
     public function __construct(mysqli $mysql)
@@ -18,7 +18,7 @@ class mysqladmin
             $this->close();
     }
 
-    public function createDatabase(string $dbname) : mysqladmin
+    public function createDatabase(string $dbname) : MySQLAdmin
     {
         $this->mysql_dbh->query(sprintf("CREATE DATABASE `%s`", $dbname));
         return $this;
@@ -37,7 +37,7 @@ class mysqladmin
         return $dbsFound == 1;
     }
 
-    public function deleteDatabase(string $dbname) : mysqladmin
+    public function deleteDatabase(string $dbname) : MySQLAdmin
     {
         $this->mysql_dbh->query(sprintf("DROP DATABASE `%s`", $dbname));
         return $this;

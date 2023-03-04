@@ -1,6 +1,6 @@
 <?php
 
-namespace redcathedral\phpmysqladminrest;
+namespace redcathedral\phpMySQLAdminrest;
 
 use mysqli;
 use League\Container\Container;
@@ -14,7 +14,7 @@ function App(): Container
     }
 
     $container->add(mysqli::class)->addArgument('localhost')->addArgument('mysqladmin')->addArgument('superadmin');
-    $container->add(\redcathedral\phpmysqladminrest\mysqladmin::class)->addArgument(mysqli::class);
+    $container->add(\redcathedral\phpMySQLAdminrest\MySQLAdmin::class)->addArgument(mysqli::class);
 
     return $container;
 }
