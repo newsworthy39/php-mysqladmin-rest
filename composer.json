@@ -7,17 +7,20 @@
     },
     "license": "MIT License",
     "autoload": {
-        "classmap": [
-            "src/"
-        ],
         "psr-4": {
             "redcathedral\\phpmysqladminrest\\": "src/"
-        }
+        },
+        "files": [
+            "config/app.php"
+        ]
     },
     "authors": [
         {
             "name": "Michael G Jensen",
             "email": "newsworthy39@github.com"
         }
-    ]
+    ],
+    "require": {
+        "league/container": "^4.2"
+    }
 }

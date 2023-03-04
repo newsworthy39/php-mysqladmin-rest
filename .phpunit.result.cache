@@ -1,0 +1,1 @@
+C:37:"PHPUnit\Runner\DefaultTestResultCache":302:{a:2:{s:7:"defects";a:3:{s:7:"Warning";i:6;s:31:"UnitTest::testCanCreateDatabase";i:4;s:50:"redcathedral\tests\UnitTest::testCanCreateDatabase";i:4;}s:5:"times";a:3:{s:7:"Warning";d:0.001;s:31:"UnitTest::testCanCreateDatabase";d:0.001;s:50:"redcathedral\tests\UnitTest::testCanCreateDatabase";d:0.001;}}}
