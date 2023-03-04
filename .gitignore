@@ -14,3 +14,9 @@ composer.phar
 # from https://github.com/github/gitignore/
 .phpunit.result.cache
 .phpunit.cache
+
+# dotenv, dotenv
+
+# from https://github.com/github/gitignore/
+.env
+.env*.local
