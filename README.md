@@ -12,7 +12,11 @@ programs quite well. By creating and implementing a _co-op_ program specifically
 
 # Continouous integration
 
-Code-coverage is specified within the actual tests residing in `tests`-directory.
+Tests reside reside in `tests`-directory.
+
+## Code coverage
+
+PHP Unit, quite well allows to mark functions with coverage and `phpunit.xml` is setup to warn about missing code-coverage. 
 
 ## Unit tests
 
