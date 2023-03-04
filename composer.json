@@ -21,7 +21,8 @@
         }
     ],
     "require": {
-        "league/container": "^4.2"
+        "league/container": "^4.2",
+        "vlucas/phpdotenv": "^5.5"
     },
     "scripts": {
         "test": "vendor/bin/phpunit" 
