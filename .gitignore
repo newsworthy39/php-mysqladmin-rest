@@ -13,3 +13,4 @@ composer.phar
 
 # from https://github.com/github/gitignore/
 .phpunit.result.cache
+.phpunit.cache
