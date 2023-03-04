@@ -10,3 +10,6 @@ composer.phar
 # everything and everyone runs on the same dependencies, which mitigates the potential for bugs affecting only some parts of the deployments. 
 # Even if you develop alone, in six months when reinstalling the project you can feel confident the dependencies installed are still working 
 # even if your dependencies released many new versions since then. (See note below about using the update command.)
+
+# from https://github.com/github/gitignore/
+.phpunit.result.cache
