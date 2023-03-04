@@ -10,6 +10,11 @@ There is really no reason, to implement large-scale programmatic apis into a
 piece of software, when we're perfectly capable of actually running seperate
 programs quite well. By creating and implementing a _co-op_ program specifically for this administrative problem.
 
+# Branching and pull-requests
+
+`main`-branch is protected and read-only. PRs are to be made towards main. 
+Release-branches in the form of `tree/releases` will run complete integration-tests on integration-environment.
+
 # Dotenv-files
 
 You should never store sensitive credentials in your code. Storing configuration in the environment is one of the tenets of a twelve-factor app. Anything that is likely to change between deployment environments – such as database credentials or credentials for 3rd party services – should be extracted from the code into environment variables.

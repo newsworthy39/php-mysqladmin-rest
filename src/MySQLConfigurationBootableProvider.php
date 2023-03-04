@@ -14,21 +14,15 @@ class MySQLConfigurationBootableProvider extends AbstractServiceProvider impleme
     public function __construct()
     {
         $this->dotenv = Dotenv::createImmutable(dirname(__DIR__, 1));
+        $this->dotenv->load();
     }
 
     public function boot(): void
     {
-        try {
-            $this->dotenv->load();
-
-            $this->dotenv->required(['DATABASE_HOST', 'DATABASE_USER', 'DATABASE_PASS']);
-
-            $this->host = $_ENV['DATABASE_HOST'];
-            $this->user = $_ENV['DATABASE_USER'];
-            $this->pass = $_ENV['DATABASE_PASS'];
-        } catch (\Dotenv\Exception\InvalidPathException | \Dotenv\Exception\InvalidEncodingException | \Dotenv\Exception\InvalidFileException $ex) {
-            print("The required .env-file, is missing.");
-        }
+        $this->dotenv->required(['DATABASE_HOST', 'DATABASE_USER', 'DATABASE_PASS'])->notEmpty();
+        $this->host = $_ENV['DATABASE_HOST'];
+        $this->user = $_ENV['DATABASE_USER'];
+        $this->pass = $_ENV['DATABASE_PASS'];
     }
 
     public function provides(string $id): bool
