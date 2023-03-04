@@ -1,0 +1,23 @@
+{
+    "name": "redcathedral/php-mysqladmin-rest",
+    "description": "A MySQLAdmin API written in PHP.",
+    "type": "project",
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
+    },
+    "license": "MIT License",
+    "autoload": {
+        "classmap": [
+            "src/"
+        ],
+        "psr-4": {
+            "redcathedral\\phpmysqladminrest\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Michael G Jensen",
+            "email": "newsworthy39@github.com"
+        }
+    ]
+}
