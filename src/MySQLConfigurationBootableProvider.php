@@ -20,6 +20,7 @@ class MySQLConfigurationBootableProvider extends AbstractServiceProvider impleme
     public function boot(): void
     {
         $this->dotenv->required(['DATABASE_HOST', 'DATABASE_USER', 'DATABASE_PASS'])->notEmpty();
+        
         $this->host = $_ENV['DATABASE_HOST'];
         $this->user = $_ENV['DATABASE_USER'];
         $this->pass = $_ENV['DATABASE_PASS'];

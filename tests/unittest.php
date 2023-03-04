@@ -9,7 +9,9 @@ final class UnitTest extends TestCase
 {
     private $mysqladmin;
 
-
+    /**
+     * setUp()
+     */
     public function setUp(): void
     {
         try {
@@ -36,6 +38,9 @@ final class UnitTest extends TestCase
         $this->assertFalse($this->mysqladmin->deleteDatabase('testDatabase')->hasDatabase('testDatabase'));
     }
 
+    /**
+     * tearDown()
+     */
     public function tearDown(): void
     {
         $this->mysqladmin->close();
