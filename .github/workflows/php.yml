@@ -37,6 +37,7 @@ jobs:
     #   run: composer run-script test
 
   todo:
+    name: Disallow TODOs and FIXMEs inside source-code.
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
