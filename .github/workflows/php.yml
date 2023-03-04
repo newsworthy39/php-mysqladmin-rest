@@ -41,8 +41,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - run: |
-      if grep --exclude-dir={.git,.github,vendor} -rE "TODO|FIXME"; then
-        exit 1
-      else
-        echo "All good"
-      fi
+        if grep --exclude-dir={.git,.github,vendor} -rE "TODO|FIXME"; then
+          exit 1
+        else
+          echo "All good"
+        fi
