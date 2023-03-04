@@ -13,6 +13,7 @@ class MySQLConfigurationBootableProvider extends AbstractServiceProvider impleme
 
     public function __construct()
     {
+        // TODO: Test this
         $this->dotenv = Dotenv::createImmutable(dirname(__DIR__, 1));
     }
 

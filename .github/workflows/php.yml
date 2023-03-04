@@ -43,8 +43,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - run: |
-        if grep --exclude-dir={.git,.github,vendor} -rE "TODO|FIXME"; then
-          echo -e "Commits with TODO/FIXME in source-code is not allowed"
+        VAR=$(grep --exclude-dir={.git,.github,vendor} -rE "TODO|FIXME")
+        if [ $(echo ${VAR}) | wc -l -gt 0 ] ; then
+          echo -e "Commits with TODO/FIXME in source-code is not allowed:"
+          echo -e "${VAR}" | (TAB=$'\t'; sed "s/^/$TAB/" )
           exit 1
         else
           echo "All good"
