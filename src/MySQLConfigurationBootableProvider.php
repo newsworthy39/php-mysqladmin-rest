@@ -27,7 +27,7 @@ class MySQLConfigurationBootableProvider extends AbstractServiceProvider impleme
             $this->user = $_ENV['DATABASE_USER'];
             $this->pass = $_ENV['DATABASE_PASS'];
         } catch (\Dotenv\Exception\InvalidPathException | \Dotenv\Exception\InvalidEncodingException | \Dotenv\Exception\InvalidFileException $ex) {
-            // TODO: Implement logging framework.
+            print("The required .env-file, is missing.");
         }
     }
 
