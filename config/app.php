@@ -2,19 +2,25 @@
 
 namespace redcathedral\phpMySQLAdminrest;
 
+use redcathedral\phpMySQLAdminrest\MySQLConfigurationBootableProvider;
 use mysqli;
-use League\Container\Container;
 
-static $container; // Our PSR-compatible container.
-function App(): Container
+function App(): \League\Container\Container
 {
     static $container;
     if ($container == null) {
-        $container = new Container();
+        
+        $container = new \League\Container\Container;
+
+        /**
+         * Bootable configuration-providers, allows us to register
+         * functions and types into our container before run-time.
+         * This is particularly handy, where code is dependant on its runtime-settings.
+         */
+        $container->addServiceProvider(new MySQLConfigurationBootableProvider);
+
+        # These are classes, required to our application.
+        $container->add(\redcathedral\phpMySQLAdminrest\MySQLAdmin::class)->addArgument(mysqli::class);
     }
-
-    $container->add(mysqli::class)->addArgument('localhost')->addArgument('mysqladmin')->addArgument('superadmin');
-    $container->add(\redcathedral\phpMySQLAdminrest\MySQLAdmin::class)->addArgument(mysqli::class);
-
     return $container;
 }
