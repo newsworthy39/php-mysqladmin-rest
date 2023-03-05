@@ -78,14 +78,7 @@ or by running
 
     composer test
 
-## Coverage tests
-
-composer scripts, has added `code-coverage` to its scripts-section, as: `"show-coverage": "cat .phpunit.cache/test-results.json | jq ."`
-Run:
-        
-    composer show-coverage
-
-to see the results of the latest test. Requires a `composer test` and `jq`.
+To update code-coverage run `composer update-badges`.
 
 ## Integration testing on github
 
