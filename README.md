@@ -10,6 +10,10 @@ There is really no reason, to implement large-scale programmatic apis into a
 piece of software, when we're perfectly capable of actually running seperate
 programs quite well. By creating and implementing a _co-op_ program specifically for this administrative problem.
 
+# Security and integration
+
+We use JWT tokens to integrate with third-party authentication libraries.
+
 # Branching and pull-requests
 
 `main`-branch is protected and read-only. PRs are to be made towards main. 
@@ -81,3 +85,22 @@ to see the results of the latest test. Requires a `composer test` and `jq`.
 ## Integration testing on github
 
 There is a github-workflow `.github/workflows/php.yml`
+
+# Build and installation
+
+scripts, to helpout installating and running, can be found inside `devops`-folder:
+
+    build.sh - builds components required to run
+
+# Licenses
+
+This software is released under [BSD-3-Clause](https://github.com/newsworthy39/php-mysqladmin-rest)
+
+# Additional licenses
+
+* thephpleague/route [MIT License](https://github.com/thephpleague/route)
+* thephpleague/container [MIT License](https://github.com/thephpleague/container)
+* vlucas/phpdotenv [BSD-3-Clause](https://github.com/vlucas/phpdotenv/)
+* laminas/laminas-diactoros [BSD-3-Clause](https://github.com/laminas/laminas-diactoros)
+* laminas/laminas-httphandlerrunner [BSD-3-Clause](https://github.com/laminas/laminas-httphandlerrunner)
+* firebase/php-jwt [BSD-3-Clause](https://github.com/firebase/php-jwt)

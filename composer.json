@@ -25,7 +25,8 @@
         "vlucas/phpdotenv": "^5.5",
         "league/route": "^5.1",
         "laminas/laminas-diactoros": "^2.17",
-        "laminas/laminas-httphandlerrunner": "^2.2"
+        "laminas/laminas-httphandlerrunner": "^2.2",
+        "firebase/php-jwt": "^6.4"
     },
     "scripts": {
         "test": "vendor/bin/phpunit",
