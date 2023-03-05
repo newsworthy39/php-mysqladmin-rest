@@ -76,7 +76,7 @@ To have code-coverage created, when running tests, xdebug is required:
 
 This project uses phpunit to run unittests. The tests can be run:
 
-    vendor/bin/phpunit
+    vendor/bin/phpunit --coverage-html coverage --coverage-clover coverage.xml
 
 or by running
 
