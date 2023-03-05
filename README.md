@@ -66,7 +66,11 @@ In general semantic versioning, follows these rules strictly.
 
 ## Code coverage
 
-PHP Unit, quite well allows to mark functions with coverage and `phpunit.xml` is setup to warn about missing code-coverage. 
+PHP Unit, quite well allows to mark functions with coverage and `phpunit.xml` is setup to warn about missing code-coverage. To update code-coverage-badges run `composer update-badges`. 
+
+To have code-coverage created, when running tests, xdebug is required:
+
+    sudo apt install php-xdebug
 
 ## Unit tests
 
@@ -77,8 +81,6 @@ This project uses phpunit to run unittests. The tests can be run:
 or by running
 
     composer test
-
-To update code-coverage-badges run `composer update-badges`.
 
 ## Integration testing on github
 

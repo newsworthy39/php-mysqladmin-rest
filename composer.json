@@ -30,7 +30,7 @@
         "firebase/php-jwt": "^6.4"
     },
     "scripts": {
-        "test": "vendor/bin/phpunit --coverage-html coverage --coverage-clover coverage.xml",
+        "test": "vendor/bin/phpunit --coverage-html coverage",
         "update-badges": [
             "vendor/bin/php-coverage-badger coverage.xml .github/badges/coverage.svg"
         ]
