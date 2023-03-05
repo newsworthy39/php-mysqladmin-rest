@@ -78,7 +78,7 @@ or by running
 
     composer test
 
-To update code-coverage run `composer update-badges`.
+To update code-coverage-badges run `composer update-badges`.
 
 ## Integration testing on github
 
