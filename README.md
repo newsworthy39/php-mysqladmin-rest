@@ -1,5 +1,9 @@
 # PHP MySQLAdmin Rest-API
 
+![Code Coverage](https://raw.githubusercontent.com/newsworthy39/php-mysqladmin-rest/master/.github/badges/coverage.svg)
+
+Full code-coverage rapport is available at https://github.com/newsworthy39/php-mysqladmin-rest/tree/master/coverage
+
 The general idea, is to have an programatic solution, for dealing with long-running-services.
 Instead of dealing with block-storage connected to containers, that needs to be moved around
 use generalized long-running-services managed services that also provide administrative access
@@ -101,3 +105,4 @@ This software is released under [BSD-3-Clause](https://github.com/newsworthy39/p
 * laminas/laminas-diactoros [BSD-3-Clause](https://github.com/laminas/laminas-diactoros)
 * laminas/laminas-httphandlerrunner [BSD-3-Clause](https://github.com/laminas/laminas-httphandlerrunner)
 * firebase/php-jwt [BSD-3-Clause](https://github.com/firebase/php-jwt)
+* jaschilz/php-coverage-badger [MIT License](https://github.com/JASchilz/PHPCoverageBadge)
