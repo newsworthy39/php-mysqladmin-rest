@@ -1,4 +1,4 @@
-# PHP MySQLAdmin Rest 
+# PHP MySQLAdmin Rest-API
 
 The general idea, is to have an programatic solution, for dealing with long-running-services.
 Instead of dealing with block-storage connected to containers, that needs to be moved around
@@ -10,16 +10,11 @@ There is really no reason, to implement large-scale programmatic apis into a
 piece of software, when we're perfectly capable of actually running seperate
 programs quite well. By creating and implementing a _co-op_ program specifically for this administrative problem.
 
-# Security and integration
+## Security and integration
 
 We use JWT tokens to integrate with third-party authentication libraries.
 
-# Branching and pull-requests
-
-`main`-branch is protected and read-only. PRs are to be made towards main. 
-Release-branches in the form of `tree/releases` will run complete integration-tests on integration-environment.
-
-# Dotenv-files
+## Dotenv-files
 
 You should never store sensitive credentials in your code. Storing configuration in the environment is one of the tenets of a twelve-factor app. Anything that is likely to change between deployment environments – such as database credentials or credentials for 3rd party services – should be extracted from the code into environment variables.
 
@@ -33,7 +28,7 @@ PHP dotenv is a PHP version of the original Ruby dotenv.
 
 DotEnv can be found on https://packagist.org/packages/vlucas/phpdotenv
 
-# required entries in .env-file
+## required entries in .env-file
 
 The following variables are required in a .env-file, and will be used in `src/MySQLConfigurationBootableProvider.php`:
 
@@ -41,8 +36,20 @@ The following variables are required in a .env-file, and will be used in `src/My
     DATABASE_USER=someuser
     DATABASE_PASS=somepassword
 
+# Build and installation
 
-# Upgrading
+scripts, to helpout installating and running, can be found inside `devops`-folder:
+
+    build.sh - builds components required to run
+
+# Continouous integration
+
+`main`-branch is protected and read-only. PRs are to be made towards main. 
+Release-branches in the form of `tree/releases` will run complete integration-tests on integration-environment.
+
+Tests reside reside in `tests`-directory.
+
+## Upgrading
 
 We follow semantic versioning, which means breaking changes may occur between major releases. Read about semantic versioning: https://semver.org/
 
@@ -54,10 +61,6 @@ In general semantic versioning, follows these rules strictly.
     3. PATCH version when you make backwards compatible bug fixes
     
     Additional labels for pre-release and build metadata are available as extensions to the MAJOR.MINOR.PATCH format.
-
-# Continouous integration
-
-Tests reside reside in `tests`-directory.
 
 ## Code coverage
 
@@ -86,17 +89,11 @@ to see the results of the latest test. Requires a `composer test` and `jq`.
 
 There is a github-workflow `.github/workflows/php.yml`
 
-# Build and installation
-
-scripts, to helpout installating and running, can be found inside `devops`-folder:
-
-    build.sh - builds components required to run
-
 # Licenses
 
 This software is released under [BSD-3-Clause](https://github.com/newsworthy39/php-mysqladmin-rest)
 
-# Additional licenses
+## Additional licenses
 
 * thephpleague/route [MIT License](https://github.com/thephpleague/route)
 * thephpleague/container [MIT License](https://github.com/thephpleague/container)
