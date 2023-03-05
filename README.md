@@ -2,8 +2,6 @@
 
 ![Code Coverage](https://raw.githubusercontent.com/newsworthy39/php-mysqladmin-rest/master/.github/badges/coverage.svg)
 
-Full code-coverage rapport is available at https://github.com/newsworthy39/php-mysqladmin-rest/tree/main/coverage
-
 The general idea, is to have an programatic solution, for dealing with long-running-services.
 Instead of dealing with block-storage connected to containers, that needs to be moved around
 use generalized long-running-services managed services that also provide administrative access

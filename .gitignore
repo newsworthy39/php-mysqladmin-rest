@@ -28,3 +28,6 @@ composer.phar
 *.pem
 *.pub
 
+# code-coverage
+coverage/**
+
