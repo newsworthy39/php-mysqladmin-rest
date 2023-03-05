@@ -4,8 +4,7 @@ namespace redcathedral\tests;
 
 use PHPUnit\Framework\TestCase;
 use function redcathedral\phpMySQLAdminrest\App;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
+
 
 final class RouteTest extends TestCase
 {
@@ -27,15 +26,15 @@ final class RouteTest extends TestCase
     /**
      * @covers 
      */
-    public function testCanRouteToJson(): void
+    public function testCanRouteToListDatabasesAsJson(): void
     {
-        $_SERVER['REQUEST_URI'] = '/api/test';
+        $_SERVER['REQUEST_URI'] = '/api/database';
 
         $request = \Laminas\Diactoros\ServerRequestFactory::fromGlobals( );
         
         $response = $this->router->dispatch($request);
                 
-        $this->assertIsObject(json_decode(sprintf("%s", $response->getBody())));
+        $this->assertIsArray(json_decode(sprintf("%s", $response->getBody())));
 
     }
 

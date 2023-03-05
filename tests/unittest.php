@@ -38,6 +38,14 @@ final class UnitTest extends TestCase
         $this->assertFalse($this->mysqladmin->deleteDatabase('testDatabase')->hasDatabase('testDatabase'));
     }
 
+     /**
+     * @covers \MySQLAdmin::listDatabases
+     */
+    public function testCanListDatabases(): void
+    {
+        $this->assertIsArray($this->mysqladmin->listDatabases());
+    }
+
     /**
      * tearDown()
      */

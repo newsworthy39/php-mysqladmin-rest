@@ -43,6 +43,24 @@ class MySQLAdmin
         return $this;
     }
 
+    public function listDatabases() : array {
+        
+        $dbnames = array();
+        $result = $this->mysql_dbh->query(sprintf("select SCHEMA_NAME from information_schema.SCHEMATA"));
+        
+        if ($result) {
+            while (false != ( $row = $result->fetch_array(MYSQLI_ASSOC))) {
+                
+                array_push($dbnames, $row['SCHEMA_NAME']);
+            }
+            
+            $result->free_result();
+        }
+
+        return $dbnames;
+
+    }
+
     public function close()
     {
         $this->mysql_dbh->close();

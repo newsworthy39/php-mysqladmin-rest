@@ -1,6 +1,6 @@
 <?php
 
-namespace redcathedral\phpMySQLAdminrest;
+namespace redcathedral\phpMySQLAdminrest\Providers;
 
 use League\Container\ServiceProvider\AbstractServiceProvider;
 use League\Container\ServiceProvider\BootableServiceProviderInterface;
@@ -11,10 +11,9 @@ class MySQLConfigurationBootableProvider extends AbstractServiceProvider impleme
 {
     private $host, $user, $pass, $dotenv;
 
-    public function __construct()
+    public function __construct(Dotenv $env)
     {
-        $this->dotenv = Dotenv::createImmutable(dirname(__DIR__, 1));
-        $this->dotenv->load();
+        $this->dotenv = $env;
     }
 
     public function boot(): void
@@ -37,6 +36,6 @@ class MySQLConfigurationBootableProvider extends AbstractServiceProvider impleme
 
     public function register(): void
     {
-        $this->getContainer()->add(mysqli::class)->addArgument($this->host)->addArgument($this->user)->addArgument($this->pass);
+        $this->getContainer()->add(mysqli::class)->addArgument($this->host)->addArgument($this->user)->addArgument($this->pass);          
     }
 }
