@@ -20,3 +20,6 @@ composer.phar
 # from https://github.com/github/gitignore/
 .env
 .env*.local
+
+# ignore local vscode-settings
+.vscode
