@@ -23,3 +23,8 @@ composer.phar
 
 # ignore local vscode-settings
 .vscode
+
+# jwt security
+*.pem
+*.pub
+
