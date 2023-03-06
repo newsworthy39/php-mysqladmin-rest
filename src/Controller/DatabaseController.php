@@ -15,20 +15,6 @@ class DatabaseController {
         $this->mysqladmin = $mysqladmin;
     }
 
-    
-    /**
-     * Controller.
-     *
-     * @param \Psr\Http\Message\ServerRequestInterface $request
-     *
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    public function listDatabases(ServerRequestInterface $request, array $args): ResponseInterface {
-        $body     = "hi";
-        $response = new HtmlResponse($body);;
-        return $response->withStatus(200);
-    }
-
     /**
      * Controller.
      *
