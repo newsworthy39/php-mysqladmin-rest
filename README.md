@@ -1,6 +1,4 @@
-# PHP MySQLAdmin Rest-API
-
-![Code Coverage](https://raw.githubusercontent.com/newsworthy39/php-mysqladmin-rest/master/.github/badges/coverage.svg)
+# PHP MySQLAdmin Rest-API ![Code Coverage](https://raw.githubusercontent.com/newsworthy39/php-mysqladmin-rest/master/.github/badges/coverage.svg)
 
 The general idea, is to have an programatic solution, for dealing with long-running-services.
 Instead of dealing with block-storage connected to containers, that needs to be moved around
