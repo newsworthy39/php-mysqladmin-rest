@@ -10,14 +10,14 @@ use function redcathedral\phpMySQLAdminrest\Dispatch;
 /**
  * @brief RouteTests tests the phpleage router with http-like-requests.
  */
-final class RouteTest extends TestCase 
-{    
+final class RouteTest extends TestCase
+{
 
     /**
      * @brief testIsNotAllowedToRouteToListDatabasesAsJson
      * @description The test is supposed to SUCCEED with 200 OK.
      * @uses \redcathedral\phpMySQLAdminrest\App
-     * @covers \redcathedral\phpMySQLAdminrest\Middleware\AuthMiddleware
+     * @covers \redcathedral\phpMySQLAdminrest\Middleware\JWTAuthMiddleware
      * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin
      * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController::listDatabasesAsJson
      * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController::__construct
@@ -29,15 +29,13 @@ final class RouteTest extends TestCase
     public function testIsAllowedToRouteToListDatabasesAsJson(): void
     {
         // Make a token 
-        $token = array(
+        $jwt = JWTFacade::encode(array(
             "aud" => "me",
             "uuid" => "64646464"
-        );
-
-        $jwt = JWTFacade::encode($token);
+        ));
 
         $_SERVER['REQUEST_URI'] = '/api/database';
-        $_SERVER['HTTP_AUTHORIZATION'] = $jwt;
+        $_SERVER['HTTP_AUTHORIZATION'] = sprintf("Bearer %s", $jwt);
         $request = \Laminas\Diactoros\ServerRequestFactory::fromGlobals();
 
         $response = Dispatch($request);
@@ -50,7 +48,7 @@ final class RouteTest extends TestCase
      * @brief testIsNotAllowedToRouteToListDatabasesAsJson
      * @description The test is supposed to fail with a 403.
      * @uses \redcathedral\phpMySQLAdminrest\App
-     * @covers \redcathedral\phpMySQLAdminrest\Middleware\AuthMiddleware
+     * @covers \redcathedral\phpMySQLAdminrest\Middleware\JWTAuthMiddleware
      * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin
      * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController::listDatabasesAsJson
      * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController::__construct
@@ -69,6 +67,30 @@ final class RouteTest extends TestCase
 
         $this->assertEquals(403, $response->getStatusCode());
     }
+
+    /**
+     * @brief testIsNotAllowedToRouteToListDatabasesAsJson
+     * @description The test is supposed to fail with a 403.
+     * @uses \redcathedral\phpMySQLAdminrest\App
+     * @covers \redcathedral\phpMySQLAdminrest\Middleware\JWTAuthMiddleware
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
+     * @covers \redcathedral\phpMySQLAdminrest\Controller\JWTController::getJWTToken
+     */
+    public function testIsAllowedToObtainJWT(): void
+    {
+        $_SERVER['REQUEST_URI'] = '/api/authenticate';
+
+        $request = \Laminas\Diactoros\ServerRequestFactory::fromGlobals();
+
+        $response = Dispatch($request);
+
+        $this->assertEquals(200, $response->getStatusCode());
+    }
+
+
 
     /**
      * tearDown()

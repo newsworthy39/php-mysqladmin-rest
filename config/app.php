@@ -34,7 +34,7 @@ function App(): \League\Container\Container
         # These are classes, required to our application.
         $container->add(\redcathedral\phpMySQLAdminrest\MySQLAdmin::class)->addArgument(mysqli::class);
         $container->add(\redcathedral\phpMySQLAdminrest\Controller\DatabaseController::class)->addArgument(\redcathedral\phpMySQLAdminrest\MySQLAdmin::class);
-        $container->add(\redcathedral\phpMySQLAdminrest\Middleware\AuthMiddleware::class)->addArgument($dotenv);
+        $container->add(\redcathedral\phpMySQLAdminrest\Middleware\JWTAuthMiddleware::class);
     }
 
     return $container;

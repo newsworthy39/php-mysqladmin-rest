@@ -23,16 +23,22 @@ class RouterConfigurationProvider extends AbstractServiceProvider
 
         # Allows router, to find objects within the container, while outputting as json.
         $router   = (new \League\Route\Router);
-        $router->middleware($container->get(\redcathedral\phpMySQLAdminrest\Middleware\AuthMiddleware::class));
 
+        # Set Json ouput and delegate object creation to a container.
         $responseFactory = new \Laminas\Diactoros\ResponseFactory();
         $jsonstrategy = new \League\Route\Strategy\JsonStrategy($responseFactory);
         $jsonstrategy->setContainer($container);
+        $router->setStrategy($jsonstrategy);
         
         # Allows us, to output as on entire groups.
-        $router->group('/api', function ($router) use ($container) {
+        $router->group('/api', function ($router) {
             $router->map('GET', '/database', [\redcathedral\phpMySQLAdminrest\Controller\DatabaseController::class, 'listDatabasesAsJson']);
-        })->setStrategy($jsonstrategy);
+        })->middleware($container->get(\redcathedral\phpMySQLAdminrest\Middleware\JWTAuthMiddleware::class));;
+
+        # Allows us, to use sign-fuctions, etc
+        $router->group('/api', function($router) {
+            $router->map('GET', '/authenticate', [\redcathedral\phpMySQLAdminrest\Controller\JWTController::class, 'getJWTToken']);
+        });
 
         # Register the router
         $container->add(\League\Route\Router::class, $router);
