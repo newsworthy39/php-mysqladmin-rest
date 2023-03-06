@@ -3,7 +3,9 @@
 namespace redcathedral\tests;
 
 use PHPUnit\Framework\TestCase;
+use redcathedral\phpMySQLAdminrest\Controller\AuthenticationController;
 use \redcathedral\phpMySQLAdminrest\Facades\JWTFacade;
+use redcathedral\phpMySQLAdminrest\Traits\AuthenticationTrait;
 use stdClass;
 
 use function redcathedral\phpMySQLAdminrest\App;
@@ -11,6 +13,8 @@ use function redcathedral\phpMySQLAdminrest\App;
 final class UnitTest extends TestCase
 {
     private $mysqladmin;
+
+  
 
     /**
      * setUp()
@@ -108,10 +112,36 @@ final class UnitTest extends TestCase
     }
 
     /**
+     * @covers \redcathedral\phpMySQLAdminrest\Traits\AuthenticationTrait
+     * @covers redcathedral\phpMySQLAdminrest\MySQLAdmin
+     * @covers redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
+     * @covers redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
+     * @covers redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
+     */
+    public function testCanGetBasicTokenFromAuthorizationHeader(): void {
+
+        $x = new class() {
+            use AuthenticationTrait;
+        };
+
+        $token = base64_encode(sprintf("%s:%s", "admin","admin"));
+
+        $_SERVER['HTTP_AUTHORIZATION'] = sprintf("Basic %s", $token);
+
+        $token = $x->getBasicToken();
+
+        list($username, $password) = explode(":", base64_decode($token));
+
+        $this->assertSame($username, "admin");
+        $this->assertSame($password, "admin");
+    }
+
+    /**
      * tearDown()
      */
     public function tearDown(): void
     {
         $this->mysqladmin->close();
+        $_SERVER = null;
     }
 }

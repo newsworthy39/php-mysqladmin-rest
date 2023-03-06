@@ -37,7 +37,7 @@ class RouterConfigurationProvider extends AbstractServiceProvider
 
         # Allows us, to use sign-fuctions, etc
         $router->group('/api', function($router) {
-            $router->map('GET', '/authenticate', [\redcathedral\phpMySQLAdminrest\Controller\JWTController::class, 'getJWTToken']);
+            $router->map('GET', '/authenticate', [\redcathedral\phpMySQLAdminrest\Controller\AuthenticationController::class, 'authenticate']);
         });
 
         # Register the router

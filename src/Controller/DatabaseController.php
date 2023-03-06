@@ -22,8 +22,9 @@ class DatabaseController {
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function listDatabasesAsJson(ServerRequestInterface $request, array $args): array {
-        return $this->mysqladmin->listDatabases();
+    public function listDatabasesAsJson(ServerRequestInterface $request, array $args): ResponseInterface {
+        $response = new HtmlResponse(json_encode($this->mysqladmin->listDatabases()));
+        return $response->withAddedHeader('content-type', 'application/json')->withStatus(200);
     }
 
 }
