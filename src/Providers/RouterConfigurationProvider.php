@@ -23,6 +23,8 @@ class RouterConfigurationProvider extends AbstractServiceProvider
 
         # Allows router, to find objects within the container, while outputting as json.
         $router   = (new \League\Route\Router);
+        $router->middleware($container->get(\redcathedral\phpMySQLAdminrest\Middleware\AuthMiddleware::class));
+
         $responseFactory = new \Laminas\Diactoros\ResponseFactory();
         $jsonstrategy = new \League\Route\Strategy\JsonStrategy($responseFactory);
         $jsonstrategy->setContainer($container);

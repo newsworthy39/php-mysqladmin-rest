@@ -5,18 +5,20 @@ namespace redcathedral\phpMySQLAdminrest;
 use Dotenv\Dotenv;
 use redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider;
 use redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider;
-use mysqli;
+use redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider;
 use redcathedral\phpMySQLAdminrest\Controller\DatabaseController;
+use mysqli;
 
 function App(): \League\Container\Container
 {
-    static $container;
+    static $container; // late init
+
     if ($container == null) {
 
         $container = new \League\Container\Container;
         
-
         $dotenv = Dotenv::createImmutable(dirname(__DIR__, 1));
+
         $dotenv->load();
 
         /**
@@ -26,10 +28,12 @@ function App(): \League\Container\Container
          */
         $container->addServiceProvider(new MySQLConfigurationBootableProvider($dotenv));
         $container->addServiceProvider(new RouterConfigurationProvider);
+        $container->addServiceProvider(new JWTAuthenticateProvider($dotenv));
 
         # These are classes, required to our application.
         $container->add(\redcathedral\phpMySQLAdminrest\MySQLAdmin::class)->addArgument(mysqli::class);
         $container->add(\redcathedral\phpMySQLAdminrest\Controller\DatabaseController::class)->addArgument(\redcathedral\phpMySQLAdminrest\MySQLAdmin::class);
+        $container->add(\redcathedral\phpMySQLAdminrest\Middleware\AuthMiddleware::class)->addArgument($dotenv);
     }
 
     return $container;

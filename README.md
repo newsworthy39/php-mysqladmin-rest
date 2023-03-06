@@ -30,13 +30,20 @@ PHP dotenv is a PHP version of the original Ruby dotenv.
 
 DotEnv can be found on https://packagist.org/packages/vlucas/phpdotenv
 
-## required entries in .env-file
+### Database-connectivity
 
 The following variables are required in a .env-file, and will be used in `src/MySQLConfigurationBootableProvider.php`:
 
     DATABASE_HOST=localhost
     DATABASE_USER=someuser
     DATABASE_PASS=somepassword
+
+### JWT
+
+To use the JWT run the build-script inside the `devops`-folder. Next, add the keys to the .env-file, as
+
+    JWT_PUB_KEY=/var/www/html/mykey.pub (example)
+    JWT_PRIV_KEY=/var/www/html/mykey.pem (example)
 
 # Build and installation
 
