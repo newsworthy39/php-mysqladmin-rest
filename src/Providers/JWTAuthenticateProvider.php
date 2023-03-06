@@ -17,7 +17,6 @@ class JWTAuthenticateProvider extends AbstractServiceProvider implements Bootabl
 
     public function boot(): void
     {
-        # TODO Make JWT into a Facade, hiding the key stuff.
         $this->dotenv->required(['JWT_PUB_KEY', 'JWT_PRIV_KEY','JWT_ISSUER_DOMAIN'])->notEmpty();
         $this->pubkey = file_get_contents($_ENV['JWT_PUB_KEY']);
         $this->privkey = file_get_contents($_ENV['JWT_PRIV_KEY']);
