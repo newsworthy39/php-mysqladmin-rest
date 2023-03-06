@@ -5,29 +5,17 @@ namespace redcathedral\tests;
 use PHPUnit\Framework\TestCase;
 use redcathedral\phpMySQLAdminrest\Facades\JWTFacade;
 use function redcathedral\phpMySQLAdminrest\App;
-
+use function redcathedral\phpMySQLAdminrest\Dispatch;
 
 /**
  * @brief RouteTests tests the phpleage router with http-like-requests.
  */
-final class RouteTest extends TestCase
-{
-    private $router;
+final class RouteTest extends TestCase 
+{    
 
     /**
-     * setUp()
-     */
-    public function setUp(): void
-    {
-        try {
-            $this->router = App()->get(\League\Route\Router::class);
-            $this->assertIsObject($this->router);
-        } catch (\League\Container\Exception\NotFoundException $ex) {
-            $this->assertFalse(true);
-        }
-    }
-
-    /**
+     * @brief testIsNotAllowedToRouteToListDatabasesAsJson
+     * @description The test is supposed to SUCCEED with 200 OK.
      * @uses \redcathedral\phpMySQLAdminrest\App
      * @covers \redcathedral\phpMySQLAdminrest\Middleware\AuthMiddleware
      * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin
@@ -37,31 +25,25 @@ final class RouteTest extends TestCase
      * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
      * @covers \redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
-     
      */
-
     public function testIsAllowedToRouteToListDatabasesAsJson(): void
     {
-
+        // Make a token 
         $token = array(
-            "iss" => "http://example.org",
-            "aud" => "http://example.com",
-            "iat" => 1356999524,
-            "nbf" => 1357000000,
+            "aud" => "me",
             "uuid" => "64646464"
         );
 
         $jwt = JWTFacade::encode($token);
 
         $_SERVER['REQUEST_URI'] = '/api/database';
-
         $_SERVER['HTTP_AUTHORIZATION'] = $jwt;
-
         $request = \Laminas\Diactoros\ServerRequestFactory::fromGlobals();
 
-        $response = $this->router->dispatch($request);
+        $response = Dispatch($request);
 
         $this->assertEquals(200, $response->getStatusCode());
+        $this->assertIsString(sprintf("%s", $response->getBody()));
     }
 
     /**
@@ -77,15 +59,13 @@ final class RouteTest extends TestCase
      * @covers \redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
      */
-
-
     public function testIsNotAllowedToRouteToListDatabasesAsJson(): void
     {
         $_SERVER['REQUEST_URI'] = '/api/database';
 
         $request = \Laminas\Diactoros\ServerRequestFactory::fromGlobals();
 
-        $response = $this->router->dispatch($request);
+        $response = Dispatch($request);
 
         $this->assertEquals(403, $response->getStatusCode());
     }

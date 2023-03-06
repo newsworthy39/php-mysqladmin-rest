@@ -8,6 +8,7 @@ use redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider;
 use redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider;
 use redcathedral\phpMySQLAdminrest\Controller\DatabaseController;
 use mysqli;
+use Psr\Http\Message\ServerRequestInterface;
 
 function App(): \League\Container\Container
 {
@@ -16,7 +17,7 @@ function App(): \League\Container\Container
     if ($container == null) {
 
         $container = new \League\Container\Container;
-        
+
         $dotenv = Dotenv::createImmutable(dirname(__DIR__, 1));
 
         $dotenv->load();
@@ -37,4 +38,16 @@ function App(): \League\Container\Container
     }
 
     return $container;
+}
+
+/**
+ * @brief Dispatch(ServerRequestInterface)
+ * Dispatches a ServerRequest into a Router.
+ */
+function Dispatch(ServerRequestInterface $request)
+{
+    try {
+        return (App()->get(\League\Route\Router::class))->dispatch($request);
+    } catch (\League\Container\Exception\NotFoundException $ex) {
+    }
 }

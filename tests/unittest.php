@@ -70,19 +70,18 @@ final class UnitTest extends TestCase
      * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
      * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
      */
-    public function testJWT(): void {
-
-        $token = array(
+    public function testJWT(): void
+    {
+        $uuid = "64646464";
+        $jwt = JWTFacade::encode(array(
             "aud" => "me",
-            "uuid" => "64646464"
-        );
-
-        $jwt = JWTFacade::encode($token);
+            "uuid" => $uuid
+        ));
 
         $payload = JWTFacade::verify($jwt);
 
         $this->assertSame(JWTFacade::getIssuer(), $payload->iss);
-
+        $this->assertSame($uuid, $payload->uuid);
     }
 
     /**
