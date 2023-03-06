@@ -5,14 +5,13 @@ Instead of dealing with block-storage connected to containers, that needs to be 
 use generalized long-running-services managed services that also provide administrative access
 to their underlying systems.
 
-## co-op administration
 There is really no reason, to implement large-scale programmatic apis into a
 piece of software, when we're perfectly capable of actually running seperate
 programs quite well. By creating and implementing a _co-op_ program specifically for this administrative problem.
 
-## Security and integration
+## Security and authentication
 
-We use JWT tokens to integrate with third-party authentication libraries.
+We use JWT tokens, to our API'see [Docs about Authentication](https://github.com/newsworthy39/php-mysqladmin-rest/docs/)
 
 ## Dotenv-files
 
@@ -42,6 +41,7 @@ To use the JWT run the build-script inside the `devops`-folder. Next, add the ke
 
     JWT_PUB_KEY=/var/www/html/mykey.pub (example)
     JWT_PRIV_KEY=/var/www/html/mykey.pem (example)
+    JWT_ISSUER="Plant Monster GMBH" (example)
 
 # Build and installation
 
@@ -90,6 +90,9 @@ or by running
 ## Integration testing on github
 
 There is a github-workflow `.github/workflows/php.yml`
+
+# Development environment
+TBD
 
 # Licenses
 
