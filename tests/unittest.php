@@ -70,7 +70,7 @@ final class UnitTest extends TestCase
      * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
      * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
      */
-    public function testJWT(): void
+    public function testJWTCanVerify(): void
     {
         $uuid = "64646464";
         $jwt = JWTFacade::encode(array(
@@ -79,6 +79,29 @@ final class UnitTest extends TestCase
         ));
 
         $payload = JWTFacade::verify($jwt);
+
+        $this->assertSame(JWTFacade::getIssuer(), $payload->iss);
+        $this->assertSame($uuid, $payload->uuid);
+    }
+
+    /**
+     * @uses \redcathedral\phpMySQLAdminrest\App
+     * @uses redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
+     * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
+     */
+    public function testJWTCanDecode(): void
+    {
+        $uuid = "64646464";
+        $jwt = JWTFacade::encode(array(
+            "aud" => "me",
+            "uuid" => $uuid
+        ));
+
+        // array($plainHeader, $plainPayload);
+        list($header, $payload) = JWTFacade::decode($jwt);
 
         $this->assertSame(JWTFacade::getIssuer(), $payload->iss);
         $this->assertSame($uuid, $payload->uuid);
