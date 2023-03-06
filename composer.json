@@ -30,9 +30,14 @@
         "firebase/php-jwt": "^6.4"
     },
     "scripts": {
-        "test": "vendor/bin/phpunit --coverage-html coverage --coverage-clover coverage.xml",
+        "test": [ "@clearCache", "vendor/bin/phpunit --coverage-html coverage --coverage-clover coverage.xml" , "@update-badges"],
+        "testClearCache" : "rm -rf .phpunit.cache",
         "update-badges": [
             "vendor/bin/php-coverage-badger coverage.xml .github/badges/coverage.svg"
         ]
+    },
+    "scripts-descriptions": {
+        "test": "Clears caches, run all tests, and update coverage-badges",
+        "testClearCache": "Removes the PHPunit-cache [.phpunit.cache]"
     }
 }
