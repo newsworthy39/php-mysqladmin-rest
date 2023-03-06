@@ -46,8 +46,6 @@ function App(): \League\Container\Container
  */
 function Dispatch(ServerRequestInterface $request)
 {
-    try {
-        return (App()->get(\League\Route\Router::class))->dispatch($request);
-    } catch (\League\Container\Exception\NotFoundException $ex) {
-    }
+    // Exceptions are caught in the strategy middleware interfaces.
+    return App()->get(\League\Route\Router::class)->dispatch($request);
 }
