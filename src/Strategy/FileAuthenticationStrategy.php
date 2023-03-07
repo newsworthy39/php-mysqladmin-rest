@@ -1,10 +1,11 @@
 <?php
 
-namespace redcathedral\phpMySQLAdminrest\Implementations;
+namespace redcathedral\phpMySQLAdminrest\Strategy;
 
 use redcathedral\phpMySQLAdminrest\Strategy\AuthenticationStrategy;
+use redcathedral\phpMySQLAdminrest\Implementations\HashSHA256;
 
-class FileAuthenticationImpl extends AuthenticationStrategy
+class FileAuthenticationStrategy extends AuthenticationStrategy
 {
     private $users ;
 

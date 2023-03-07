@@ -3,7 +3,7 @@
 namespace redcathedral\tests;
 
 use PHPUnit\Framework\TestCase;
-use \redcathedral\phpMySQLAdminrest\Implementations\FileAuthenticationImpl;
+use \redcathedral\phpMySQLAdminrest\Strategy\FileAuthenticationStrategy;
 use redcathedral\phpMySQLAdminrest\Implementations\HashSHA256;
 
 use function redcathedral\phpMySQLAdminrest\App;
@@ -14,7 +14,7 @@ final class AuthTest extends TestCase
     /**
      * @brief test FileAuthenticationImpl
      * @description Test the verify-function of a FileAuthenticationClass.
-     * @covers \redcathedral\phpMySQLAdminrest\Implementations\FileAuthenticationImpl
+     * @covers \redcathedral\phpMySQLAdminrest\Strategy\FileAuthenticationStrategy
      * @covers \redcathedral\phpMySQLAdminrest\Implementations\HashSHA256
      * 
      * @uses redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
@@ -25,7 +25,7 @@ final class AuthTest extends TestCase
     {
         // Fetch the 
         $username = 'admin';
-        $auth = App()->get(\redcathedral\phpMySQLAdminrest\Implementations\FileAuthenticationImpl::class);
+        $auth = App()->get(\redcathedral\phpMySQLAdminrest\Strategy\FileAuthenticationStrategy::class);
 
         $auth->addUser($username, HashSHA256::fromString($username)); // Adds admin:admin
 
@@ -36,7 +36,7 @@ final class AuthTest extends TestCase
     /**
      * @brief test testNotFoundFileAuthenticationImpl
      * @description Test the verify-function of a FileAuthenticationClass. It is expected to FAIL.
-     * @covers \redcathedral\phpMySQLAdminrest\Implementations\FileAuthenticationImpl
+     * @covers \redcathedral\phpMySQLAdminrest\Strategy\FileAuthenticationStrategy
      * @covers \redcathedral\phpMySQLAdminrest\Implementations\HashSHA256
      * 
      * @uses redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
@@ -46,7 +46,7 @@ final class AuthTest extends TestCase
     public function testNotFoundFileAuthenticationImpl(): void
     {
         // Fetch the 
-        $auth = App()->get(\redcathedral\phpMySQLAdminrest\Implementations\FileAuthenticationImpl::class);
+        $auth = App()->get(\redcathedral\phpMySQLAdminrest\Strategy\FileAuthenticationStrategy::class);
 
         $username = 'admin';
         $hash = HashSHA256::fromString($username);
@@ -59,7 +59,7 @@ final class AuthTest extends TestCase
      /**
      * @brief test FileAuthenticationImpl
      * @description Test the verify-function of a FileAuthenticationClass.
-     * @covers \redcathedral\phpMySQLAdminrest\Implementations\FileAuthenticationImpl
+     * @covers \redcathedral\phpMySQLAdminrest\Strategy\FileAuthenticationStrategy
      * @covers \redcathedral\phpMySQLAdminrest\Implementations\HashSHA256
      * 
      * @uses redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
@@ -70,7 +70,7 @@ final class AuthTest extends TestCase
     {
         // Fetch the 
         $username = 'admin';
-        $auth = App()->get(\redcathedral\phpMySQLAdminrest\Implementations\FileAuthenticationImpl::class);
+        $auth = App()->get(\redcathedral\phpMySQLAdminrest\Strategy\FileAuthenticationStrategy::class);
 
         $hash = hash('sha256',  $username);
         $auth->addUser($username, HashSHA256::fromHash($hash)); // Adds admin:admin
