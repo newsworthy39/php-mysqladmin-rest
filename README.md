@@ -37,17 +37,11 @@ The following variables are required in a .env-file, and will be used in `src/My
 
 ### JWT
 
-To use the JWT run the build-script inside the `devops`-folder. Next, add the keys to the .env-file, as
+To use the JWT run the `genkeys.sh`-script inside the `devops`-folder. The script will add the keys to the .env-file:
 
     JWT_PUB_KEY=/var/www/html/mykey.pub (example)
     JWT_PRIV_KEY=/var/www/html/mykey.pem (example)
     JWT_ISSUER="Plant Monster GMBH" (example)
-
-# Build and installation
-
-scripts, to helpout installating and running, can be found inside `devops`-folder:
-
-    build.sh - builds components required to run
 
 # Continouous integration
 
@@ -56,7 +50,11 @@ Release-branches in the form of `tree/releases` will run complete integration-te
 
 Tests reside reside in `tests`-directory.
 
-## Upgrading
+## Docker build
+
+    docker build -t phpmysqladminrest:test .
+
+# Versioning
 
 We follow semantic versioning, which means breaking changes may occur between major releases. Read about semantic versioning: https://semver.org/
 
