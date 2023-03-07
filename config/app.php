@@ -40,13 +40,12 @@ function App(): \League\Container\Container
         $container->add(\redcathedral\phpMySQLAdminrest\Middleware\JWTAuthMiddleware::class);
 
         // TBD: This could come from an in-memory authentication-provider.
-        $container->addShared(\redcathedral\phpMySQLAdminrest\Strategy\FileAuthenticationStrategy::class, function () {
-            $username = 'admin';
-            $auth = new \redcathedral\phpMySQLAdminrest\Strategy\FileAuthenticationStrategy();
-            $auth->addUser($username, HashSHA256::fromString($username)); // Adds admin:admin
+        $container->addShared(\redcathedral\phpMySQLAdminrest\Strategy\InMemoryAuthenticationStrategy::class, function () {
+            $auth = new \redcathedral\phpMySQLAdminrest\Strategy\InMemoryAuthenticationStrategy();
+            $auth->addUser("admin", HashSHA256::fromHash("25f43b1486ad95a1398e3eeb3d83bc4010015fcc9bedb35b432e00298d5021f7")); 
             return $auth;
         });
-        $container->add(\redcathedral\phpMySQLAdminrest\Controller\AuthenticationController::class)->addArgument(\redcathedral\phpMySQLAdminrest\Strategy\FileAuthenticationStrategy::class);
+        $container->add(\redcathedral\phpMySQLAdminrest\Controller\AuthenticationController::class)->addArgument(\redcathedral\phpMySQLAdminrest\Strategy\InMemoryAuthenticationStrategy::class);
     }
 
     return $container;

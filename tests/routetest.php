@@ -80,7 +80,7 @@ final class RouteTest extends TestCase
      * @covers \redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
      * @covers redcathedral\phpMySQLAdminrest\Controller\AuthenticationController
-     * @covers \redcathedral\phpMySQLAdminrest\Strategy\FileAuthenticationStrategy
+     * @covers \redcathedral\phpMySQLAdminrest\Strategy\InMemoryAuthenticationStrategy
      * @covers \redcathedral\phpMySQLAdminrest\Implementations\HashSHA256
      * @covers \redcathedral\phpMySQLAdminrest\Strategy\AuthenticationStrategy
      */
@@ -88,7 +88,7 @@ final class RouteTest extends TestCase
     {
         // Fetch the implementation
         $username = 'admin';
-        $auth = App()->get(\redcathedral\phpMySQLAdminrest\Strategy\FileAuthenticationStrategy::class);
+        $auth = App()->get(\redcathedral\phpMySQLAdminrest\Strategy\InMemoryAuthenticationStrategy::class);
         $auth->addUser($username, HashSHA256::fromString($username)); // Adds admin:admin
 
         // Execute against the route.
@@ -109,7 +109,7 @@ final class RouteTest extends TestCase
      * @covers \redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
      * @covers redcathedral\phpMySQLAdminrest\Controller\AuthenticationController
-     * @covers \redcathedral\phpMySQLAdminrest\Strategy\FileAuthenticationStrategy
+     * @covers \redcathedral\phpMySQLAdminrest\Strategy\InMemoryAuthenticationStrategy
      * @covers \redcathedral\phpMySQLAdminrest\Implementations\HashSHA256
      */
     public function testIsNotAllowedToObtainJWT(): void
