@@ -9,12 +9,12 @@ use Psr\Http\Message\ResponseInterface;
 use redcathedral\phpMySQLAdminrest\Facades\JWTFacade;
 use redcathedral\phpMySQLAdminrest\Implementations\HashSHA256;
 use redcathedral\phpMySQLAdminrest\Traits\AuthenticationTrait;
-use redcathedral\phpMySQLAdminrest\Interfaces\AuthenticationProxyInterface;
+use redcathedral\phpMySQLAdminrest\Strategy\AuthenticationStrategy;
 
 /**
  * @brief AuthenticationController
  * @description AuthenticationController is used, to issue JWT-tokens when no other authentication-backends are used.
- *              It allows us, to use different backends through the AuthenticationProxyInterface, that you may 
+ *              It allows us, to use different backends through the AuthenticationStrategy, that you may 
  *              implement.
  */
 class AuthenticationController
@@ -22,7 +22,7 @@ class AuthenticationController
     use AuthenticationTrait;
     private $auth;
 
-    public function __construct(AuthenticationProxyInterface $auth)
+    public function __construct(AuthenticationStrategy $auth)
     {
         $this->auth = $auth;
     }

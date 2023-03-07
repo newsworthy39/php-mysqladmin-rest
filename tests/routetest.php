@@ -82,7 +82,7 @@ final class RouteTest extends TestCase
      * @covers redcathedral\phpMySQLAdminrest\Controller\AuthenticationController
      * @covers \redcathedral\phpMySQLAdminrest\Implementations\FileAuthenticationImpl
      * @covers \redcathedral\phpMySQLAdminrest\Implementations\HashSHA256
-     * @covers \redcathedral\phpMySQLAdminrest\Interfaces\AuthenticationProxyInterface
+     * @covers \redcathedral\phpMySQLAdminrest\Strategy\AuthenticationStrategy
      */
     public function testIsAllowedToObtainJWT(): void
     {

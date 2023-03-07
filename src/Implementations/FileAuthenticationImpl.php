@@ -2,9 +2,9 @@
 
 namespace redcathedral\phpMySQLAdminrest\Implementations;
 
-use redcathedral\phpMySQLAdminrest\Interfaces\AuthenticationProxyInterface;
+use redcathedral\phpMySQLAdminrest\Strategy\AuthenticationStrategy;
 
-class FileAuthenticationImpl extends AuthenticationProxyInterface
+class FileAuthenticationImpl extends AuthenticationStrategy
 {
     private $users ;
 

@@ -19,7 +19,7 @@ final class AuthTest extends TestCase
      * 
      * @uses redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @uses redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
-     * @uses \redcathedral\phpMySQLAdminrest\Interfaces\AuthenticationProxyInterface
+     * @uses \redcathedral\phpMySQLAdminrest\Strategy\AuthenticationStrategy
      */
     public function testFileAuthenticationImpl(): void
     {
@@ -41,7 +41,7 @@ final class AuthTest extends TestCase
      * 
      * @uses redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @uses redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
-     * @uses \redcathedral\phpMySQLAdminrest\Interfaces\AuthenticationProxyInterface
+     * @uses \redcathedral\phpMySQLAdminrest\Strategy\AuthenticationStrategy
      */
     public function testNotFoundFileAuthenticationImpl(): void
     {
@@ -64,7 +64,7 @@ final class AuthTest extends TestCase
      * 
      * @uses redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @uses redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
-     * @uses \redcathedral\phpMySQLAdminrest\Interfaces\AuthenticationProxyInterface
+     * @uses \redcathedral\phpMySQLAdminrest\Strategy\AuthenticationStrategy
      */
     public function testFileAuthenticationImplWithHashes(): void
     {
