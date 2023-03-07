@@ -35,7 +35,7 @@
         "update-badges": [
             "vendor/bin/php-coverage-badger coverage.xml .github/badges/coverage.svg"
         ],
-        "generatejwtkeys": "devops/build.sh"
+        "generatejwtkeys": "devops/genkeys.sh"
     },
     "scripts-descriptions": {
         "test": "Clears caches, run all tests, and update coverage-badges",

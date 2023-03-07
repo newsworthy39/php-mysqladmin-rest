@@ -6,7 +6,8 @@ if [ ! -f mykey.pub ]; then
     openssl rsa -in "${PWD}/mykey.pem" -pubout > "${PWD}/mykey.pub"
     sed -i "/JWT_PRIV_KEY=/d" "${PWD}/.env"
     sed -i "/JWT_PUB_KEY=/d" "${PWD}/.env"
+    sed -i "/JWT_ISSUER=/d" "${PWD}/.env"
     echo "JWT_PRIV_KEY=${PWD}/mykey.pem" >> "${PWD}/.env"
     echo "JWT_PUB_KEY=${PWD}/mykey.pub" >> "${PWD}/.env"
-    
+    echo "JWT_ISSUER=\"Mystery Inc.\"" >> "${PWD}/.env"
 fi
