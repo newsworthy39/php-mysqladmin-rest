@@ -14,11 +14,11 @@
          verbose="true">
     <testsuites>
         <testsuite name="default">
+            <file>tests/authtest.php</file>
             <file>tests/unittest.php</file>     
             <file>tests/routetest.php</file>
         </testsuite>
     </testsuites>
-
     <coverage cacheDirectory=".phpunit.cache/code-coverage"
               processUncoveredFiles="true">
         <include>
