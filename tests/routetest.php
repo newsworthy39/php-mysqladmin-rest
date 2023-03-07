@@ -4,6 +4,8 @@ namespace redcathedral\tests;
 
 use PHPUnit\Framework\TestCase;
 use redcathedral\phpMySQLAdminrest\Facades\JWTFacade;
+use redcathedral\phpMySQLAdminrest\Implementations\HashSHA256;
+
 use function redcathedral\phpMySQLAdminrest\App;
 use function redcathedral\phpMySQLAdminrest\Dispatch;
 
@@ -46,8 +48,8 @@ final class RouteTest extends TestCase
 
     /**
      * @brief testIsNotAllowedToRouteToListDatabasesAsJson
-     * @description The test is supposed to fail with a 403.
-     * @uses \redcathedral\phpMySQLAdminrest\App
+     * @description The test is supposed to fail with a 401.
+     * @covers \redcathedral\phpMySQLAdminrest\App
      * @covers \redcathedral\phpMySQLAdminrest\Middleware\JWTAuthMiddleware
      * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin
      * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController::listDatabasesAsJson
@@ -69,37 +71,46 @@ final class RouteTest extends TestCase
     }
 
     /**
-     * @brief testIsNotAllowedToRouteToListDatabasesAsJson
-     * @description The test is supposed to fail with a 403.
-     * @uses \redcathedral\phpMySQLAdminrest\App
+     * @brief testIsAllowedToObtainJWT
+     * @description The test is supposed to succeed with a 200.
+     * @covers \redcathedral\phpMySQLAdminrest\App
      * @covers \redcathedral\phpMySQLAdminrest\Middleware\JWTAuthMiddleware
-     * @uses \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
-     * @uses \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
      * @covers \redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
      * @covers redcathedral\phpMySQLAdminrest\Controller\AuthenticationController
+     * @covers \redcathedral\phpMySQLAdminrest\Implementations\FileAuthenticationImpl
+     * @covers \redcathedral\phpMySQLAdminrest\Implementations\HashSHA256
+     * @covers \redcathedral\phpMySQLAdminrest\Interfaces\AuthenticationProxyInterface
      */
     public function testIsAllowedToObtainJWT(): void
     {
+        // Fetch the implementation
+        $username = 'admin';
+        $auth = App()->get(\redcathedral\phpMySQLAdminrest\Implementations\FileAuthenticationImpl::class);
+        $auth->addUser($username, HashSHA256::fromString($username)); // Adds admin:admin
+
+        // Execute against the route.
         $_SERVER['REQUEST_URI'] = '/api/authenticate';
-        $token = base64_encode(sprintf("%s:%s", "admin", "admin"));
+        $token = base64_encode(sprintf("%s:%s", $username, $username));
         $_SERVER['HTTP_AUTHORIZATION'] = sprintf("Basic %s",  $token);
 
         $request = \Laminas\Diactoros\ServerRequestFactory::fromGlobals();
-
         $this->assertEquals(200, Dispatch($request)->getStatusCode());
     }
 
-
     /**
-     * @brief testIsNotAllowedToRouteToListDatabasesAsJson
-     * @description The test is supposed to fail with a 403.
-     * @uses \redcathedral\phpMySQLAdminrest\App
-     * @uses \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
-     * @uses \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
+     * @brief testIsNotAllowedToObtainJWT
+     * @description The test is supposed to fail with a 401.
+     * @covers \redcathedral\phpMySQLAdminrest\App
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
      * @covers \redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
      * @covers redcathedral\phpMySQLAdminrest\Controller\AuthenticationController
+     * @covers \redcathedral\phpMySQLAdminrest\Implementations\FileAuthenticationImpl
+     * @covers \redcathedral\phpMySQLAdminrest\Implementations\HashSHA256
      */
     public function testIsNotAllowedToObtainJWT(): void
     {
@@ -109,8 +120,6 @@ final class RouteTest extends TestCase
 
         $this->assertEquals(401, Dispatch($request)->getStatusCode());
     }
-
-
 
     /**
      * tearDown()

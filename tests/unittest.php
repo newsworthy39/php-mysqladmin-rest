@@ -31,8 +31,8 @@ final class UnitTest extends TestCase
 
 
     /**
-     * @uses \redcathedral\phpMySQLAdminrest\App
-     * @uses redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
+     * @covers \redcathedral\phpMySQLAdminrest\App
+     * @covers redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin
      * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
      * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
@@ -43,8 +43,8 @@ final class UnitTest extends TestCase
     }
 
     /**
-     * @uses \redcathedral\phpMySQLAdminrest\App
-     * @uses redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
+     * @covers \redcathedral\phpMySQLAdminrest\App
+     * @covers redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin
      * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
      * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
@@ -55,8 +55,8 @@ final class UnitTest extends TestCase
     }
 
     /**
-     * @uses redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
-     * @uses \redcathedral\phpMySQLAdminrest\App
+     * @covers redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
+     * @covers \redcathedral\phpMySQLAdminrest\App
      * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin
      * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
      * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
@@ -67,8 +67,8 @@ final class UnitTest extends TestCase
     }
 
     /**
-     * @uses \redcathedral\phpMySQLAdminrest\App
-     * @uses redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
+     * @covers \redcathedral\phpMySQLAdminrest\App
+     * @covers redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin
      * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
      * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
@@ -89,8 +89,8 @@ final class UnitTest extends TestCase
     }
 
     /**
-     * @uses \redcathedral\phpMySQLAdminrest\App
-     * @uses redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
+     * @covers \redcathedral\phpMySQLAdminrest\App
+     * @covers redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin
      * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
      * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider

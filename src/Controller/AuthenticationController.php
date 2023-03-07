@@ -7,23 +7,36 @@ use League\Route\Http\Exception\UnauthorizedException;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use redcathedral\phpMySQLAdminrest\Facades\JWTFacade;
+use redcathedral\phpMySQLAdminrest\Implementations\HashSHA256;
 use redcathedral\phpMySQLAdminrest\Traits\AuthenticationTrait;
+use redcathedral\phpMySQLAdminrest\Interfaces\AuthenticationProxyInterface;
 
+/**
+ * @brief AuthenticationController
+ * @description AuthenticationController is used, to issue JWT-tokens when no other authentication-backends are used.
+ *              It allows us, to use different backends through the AuthenticationProxyInterface, that you may 
+ *              implement.
+ */
 class AuthenticationController
 {
     use AuthenticationTrait;
+    private $auth;
+
+    public function __construct(AuthenticationProxyInterface $auth)
+    {
+        $this->auth = $auth;
+    }
 
     public function authenticate(ServerRequestInterface $request, array $args): ResponseInterface
     {
         $token = $this->getBasicToken();
-
         if (!$token) {
             throw new UnauthorizedException();
         }
 
-        // Refactor!
         list($username, $password) = explode(":", base64_decode($token));
-        if ($username == "admin" && $password == "admin") {
+        if ($this->auth->verify($username, HashSHA256::fromString($password))) {
+
             // Make a token 
             $jwt = JWTFacade::encode(array(
                 "aud" => "me",

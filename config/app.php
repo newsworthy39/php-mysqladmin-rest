@@ -2,13 +2,15 @@
 
 namespace redcathedral\phpMySQLAdminrest;
 
-use Dotenv\Dotenv;
+
 use redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider;
 use redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider;
 use redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider;
 use redcathedral\phpMySQLAdminrest\Controller\DatabaseController;
-use mysqli;
+use redcathedral\phpMySQLAdminrest\Implementations\HashSHA256;
 use Psr\Http\Message\ServerRequestInterface;
+use Dotenv\Dotenv;
+use mysqli;
 
 function App(): \League\Container\Container
 {
@@ -30,11 +32,21 @@ function App(): \League\Container\Container
         $container->addServiceProvider(new MySQLConfigurationBootableProvider($dotenv));
         $container->addServiceProvider(new RouterConfigurationProvider);
         $container->addServiceProvider(new JWTAuthenticateProvider($dotenv));
+        //$container->addServiceProvider(new FileAuthenticationProvider($dotenv));
 
         # These are classes, required to our application.
         $container->add(\redcathedral\phpMySQLAdminrest\MySQLAdmin::class)->addArgument(mysqli::class);
         $container->add(\redcathedral\phpMySQLAdminrest\Controller\DatabaseController::class)->addArgument(\redcathedral\phpMySQLAdminrest\MySQLAdmin::class);
         $container->add(\redcathedral\phpMySQLAdminrest\Middleware\JWTAuthMiddleware::class);
+
+        // TBD: This could come from an in-memory authentication-provider.
+        $container->addShared(\redcathedral\phpMySQLAdminrest\Implementations\FileAuthenticationImpl::class, function () {
+            $username = 'admin';
+            $auth = new \redcathedral\phpMySQLAdminrest\Implementations\FileAuthenticationImpl();
+            $auth->addUser($username, HashSHA256::fromString($username)); // Adds admin:admin
+            return $auth;
+        });
+        $container->add(\redcathedral\phpMySQLAdminrest\Controller\AuthenticationController::class)->addArgument(\redcathedral\phpMySQLAdminrest\Implementations\FileAuthenticationImpl::class);
     }
 
     return $container;
