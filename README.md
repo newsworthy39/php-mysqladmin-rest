@@ -11,7 +11,7 @@ programs quite well. By creating and implementing a _co-op_ program specifically
 
 ## Security and authentication
 
-We use JWT tokens, to our API'see [Docs about Authentication](https://github.com/newsworthy39/php-mysqladmin-rest/docs/)
+JWT is used to protect the APIs. See [docs about Authentication](https://github.com/newsworthy39/php-mysqladmin-rest/docs/authentication.md)
 
 ## Dotenv-files
 
