@@ -14,14 +14,11 @@ class JWTAuthMiddleware implements MiddlewareInterface
 {
     use AuthenticationTrait;
 
-    /**
-     * {@inheritdoc}
-     */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         // determine authentication and/or authorization
         // ...
-        $bearerToken = $this->getBearerToken();
+        $bearerToken = $this->getBearerToken($request);
 
         if ($bearerToken) {
             $payload = JWTFacade::verify($bearerToken); 

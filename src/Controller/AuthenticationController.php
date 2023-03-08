@@ -29,7 +29,8 @@ class AuthenticationController
 
     public function authenticate(ServerRequestInterface $request, array $args): ResponseInterface
     {
-        $token = $this->getBasicToken();
+        $token = $this->getBasicToken($request);
+
         if (!$token) {
             throw new UnauthorizedException();
         }

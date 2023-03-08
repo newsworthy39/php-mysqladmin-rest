@@ -2,6 +2,7 @@
 
 namespace redcathedral\phpMySQLAdminrest\Traits;
 
+use Psr\Http\Message\ServerRequestInterface;
 
 trait AuthenticationTrait
 {
@@ -27,12 +28,28 @@ trait AuthenticationTrait
         return $headers;
     }
 
+    /** 
+     * Get header Authorization
+     * */
+    function getAuthorizationHeaderFromRequest(ServerRequestInterface $request)
+    {
+        $headers = $request->getHeader('Authorization');
+        if (!empty($headers)) {
+            $headers = trim($headers[0]);
+        }
+        return $headers;
+    }
+
     /**
      * get access token from header
+     * @param ServerRequestInterface $request the request
      * */
-    function getBearerToken()
+    function getBearerToken(ServerRequestInterface $request)
     {
         $headers = $this->getAuthorizationHeader();
+        if (empty($headers)) {
+            $headers = $this->getAuthorizationHeaderFromRequest($request);
+        }
         // HEADER: Get the access token from the header
         if (!empty($headers)) {
             if (preg_match('/Bearer\s(\S+)/', $headers, $matches)) {
@@ -44,10 +61,14 @@ trait AuthenticationTrait
 
      /**
      * get basic access token from header
+     * @param ServerRequestInterface $request the request
      * */
-    function getBasicToken()
+    function getBasicToken(ServerRequestInterface $request)
     {
         $headers = $this->getAuthorizationHeader();
+        if (empty($headers)) {
+            $headers = $this->getAuthorizationHeaderFromRequest($request);
+        }
         // HEADER: Get the access token from the header
         if (!empty($headers)) {
             if (preg_match('/Basic\s(\S+)/', $headers, $matches)) {

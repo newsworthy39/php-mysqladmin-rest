@@ -2,8 +2,6 @@
 
 namespace redcathedral\phpMySQLAdminrest\Providers;
 
-use Laminas\Diactoros\ServerRequest;
-use Psr\Http\Message\ServerRequestInterface;
 use League\Container\ServiceProvider\AbstractServiceProvider;
 
 class RouterConfigurationProvider extends AbstractServiceProvider
@@ -29,14 +27,16 @@ class RouterConfigurationProvider extends AbstractServiceProvider
         $jsonstrategy = new \League\Route\Strategy\JsonStrategy($responseFactory);
         $jsonstrategy->setContainer($container);
         $router->setStrategy($jsonstrategy);
-        
+        $router->middleware(new \redcathedral\phpMySQLAdminrest\Middleware\CloudTrailMiddleware);
+
         # Allows us, to output as on entire groups.
         $router->group('/api', function ($router) {
-            $router->map('GET', '/database', [\redcathedral\phpMySQLAdminrest\Controller\DatabaseController::class, 'listDatabasesAsJson']);
-        })->middleware($container->get(\redcathedral\phpMySQLAdminrest\Middleware\JWTAuthMiddleware::class));;
+            $router->map('GET', '/database', [\redcathedral\phpMySQLAdminrest\Controller\DatabaseController::class, 'listDatabases']);
+            $router->map('POST', '/database', [\redcathedral\phpMySQLAdminrest\Controller\DatabaseController::class, 'createDatabase'])->middleware(new \redcathedral\phpMySQLAdminrest\Middleware\JSONOnlyMiddleware);
+        })->middleware($container->get(\redcathedral\phpMySQLAdminrest\Middleware\JWTAuthMiddleware::class));
 
         # Allows us, to use sign-fuctions, etc
-        $router->group('/api', function($router) {
+        $router->group('/api', function ($router) {
             $router->map('GET', '/authenticate', [\redcathedral\phpMySQLAdminrest\Controller\AuthenticationController::class, 'authenticate']);
         });
 

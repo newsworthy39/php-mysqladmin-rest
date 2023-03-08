@@ -2,18 +2,24 @@
 
 namespace redcathedral\tests;
 
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\Diactoros\UriFactory;
 use PHPUnit\Framework\TestCase;
-use redcathedral\phpMySQLAdminrest\Facades\JWTFacade;
-use redcathedral\phpMySQLAdminrest\Implementations\HashSHA256;
-
 use function redcathedral\phpMySQLAdminrest\App;
 use function redcathedral\phpMySQLAdminrest\Dispatch;
+use redcathedral\phpMySQLAdminrest\Facades\JWTFacade;
+use redcathedral\phpMySQLAdminrest\Implementations\HashSHA256;
+use Laminas\Diactoros\Uri;
 
 /**
  * @brief RouteTests tests the phpleage router with http-like-requests.
  */
 final class RouteTest extends TestCase
 {
+    public function setUp(): void
+    {
+        $_SERVER = array(); // Fix for ServerRequestFactory
+    }
 
     /**
      * @brief testIsNotAllowedToRouteToListDatabasesAsJson
@@ -21,12 +27,15 @@ final class RouteTest extends TestCase
      * @uses \redcathedral\phpMySQLAdminrest\App
      * @covers \redcathedral\phpMySQLAdminrest\Middleware\JWTAuthMiddleware
      * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin
-     * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController::listDatabasesAsJson
-     * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController::__construct
+     * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController
      * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
      * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
      * @covers \redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
+     * @covers \redcathedral\phpMySQLAdminrest\Middleware\CloudTrailMiddleware
+     * @covers \redcathedral\phpMySQLAdminrest\Implementations\HashSHA256::__construct
+     * @covers \redcathedral\phpMySQLAdminrest\Implementations\HashSHA256::fromString
+     * @covers \redcathedral\phpMySQLAdminrest\Strategy\InMemoryAuthenticationStrategy::addUser
      */
     public function testIsAllowedToRouteToListDatabasesAsJson(): void
     {
@@ -36,9 +45,8 @@ final class RouteTest extends TestCase
             "uuid" => "64646464"
         ));
 
-        $_SERVER['REQUEST_URI'] = '/api/database';
-        $_SERVER['HTTP_AUTHORIZATION'] = sprintf("Bearer %s", $jwt);
-        $request = \Laminas\Diactoros\ServerRequestFactory::fromGlobals();
+        $request = \Laminas\Diactoros\ServerRequestFactory::fromGlobals()->withUri(new Uri('/api/database'))
+                ->withAddedHeader('Content-Type', 'application/json')->withAddedHeader('Authorization',sprintf("Bearer %s", $jwt));
 
         $response = Dispatch($request);
 
@@ -49,31 +57,32 @@ final class RouteTest extends TestCase
     /**
      * @brief testIsNotAllowedToRouteToListDatabasesAsJson
      * @description The test is supposed to fail with a 401.
-     * @covers \redcathedral\phpMySQLAdminrest\App
+     * @uses \redcathedral\phpMySQLAdminrest\App
      * @covers \redcathedral\phpMySQLAdminrest\Middleware\JWTAuthMiddleware
      * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin
-     * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController::listDatabasesAsJson
-     * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController::__construct
+     * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController
      * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
      * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
      * @covers \redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
+     * @covers \redcathedral\phpMySQLAdminrest\Middleware\CloudTrailMiddleware
+     * @covers \redcathedral\phpMySQLAdminrest\Implementations\HashSHA256::__construct
+     * @covers \redcathedral\phpMySQLAdminrest\Implementations\HashSHA256::fromString
+     * @covers \redcathedral\phpMySQLAdminrest\Strategy\InMemoryAuthenticationStrategy::addUser
      */
     public function testIsNotAllowedToRouteToListDatabasesAsJson(): void
     {
-        $_SERVER['REQUEST_URI'] = '/api/database';
-
-        $request = \Laminas\Diactoros\ServerRequestFactory::fromGlobals();
-
+        $request = \Laminas\Diactoros\ServerRequestFactory::fromGlobals()->withUri(new Uri('/api/database'));
         $response = Dispatch($request);
 
+        $this->assertEquals('/api/database', (string)$request->getUri());
         $this->assertEquals(401, $response->getStatusCode());
     }
 
     /**
      * @brief testIsAllowedToObtainJWT
      * @description The test is supposed to succeed with a 200.
-     * @covers \redcathedral\phpMySQLAdminrest\App
+     * @uses \redcathedral\phpMySQLAdminrest\App
      * @covers \redcathedral\phpMySQLAdminrest\Middleware\JWTAuthMiddleware
      * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
      * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
@@ -83,6 +92,8 @@ final class RouteTest extends TestCase
      * @covers \redcathedral\phpMySQLAdminrest\Strategy\InMemoryAuthenticationStrategy
      * @covers \redcathedral\phpMySQLAdminrest\Implementations\HashSHA256
      * @covers \redcathedral\phpMySQLAdminrest\Strategy\AuthenticationStrategy
+     * @covers \redcathedral\phpMySQLAdminrest\Middleware\CloudTrailMiddleware
+     * @covers \redcathedral\phpMySQLAdminrest\Middleware\JWTAuthMiddleware
      */
     public function testIsAllowedToObtainJWT(): void
     {
@@ -91,12 +102,12 @@ final class RouteTest extends TestCase
         $auth = App()->get(\redcathedral\phpMySQLAdminrest\Strategy\InMemoryAuthenticationStrategy::class);
         $auth->addUser($username, HashSHA256::fromString($username)); // Adds admin:admin
 
-        // Execute against the route.
-        $_SERVER['REQUEST_URI'] = '/api/authenticate';
-        $token = base64_encode(sprintf("%s:%s", $username, $username));
-        $_SERVER['HTTP_AUTHORIZATION'] = sprintf("Basic %s",  $token);
+        // Execute against the route (uses fluent)   
+        $token = sprintf("Basic %s", base64_encode(sprintf("%s:%s", $username, $username)));
+        $request = ServerRequestFactory::fromGlobals()->withUri(new Uri('/api/authenticate'))
+            ->withAddedHeader("Authorization", $token);
 
-        $request = \Laminas\Diactoros\ServerRequestFactory::fromGlobals();
+            $this->assertEquals($token, $request->getHeader("Authorization")[0]);
         $this->assertEquals(200, Dispatch($request)->getStatusCode());
     }
 
@@ -111,14 +122,55 @@ final class RouteTest extends TestCase
      * @covers redcathedral\phpMySQLAdminrest\Controller\AuthenticationController
      * @covers \redcathedral\phpMySQLAdminrest\Strategy\InMemoryAuthenticationStrategy
      * @covers \redcathedral\phpMySQLAdminrest\Implementations\HashSHA256
+     * @covers \redcathedral\phpMySQLAdminrest\Middleware\CloudTrailMiddleware
+     * @covers \redcathedral\phpMySQLAdminrest\Middleware\JWTAuthMiddleware
      */
     public function testIsNotAllowedToObtainJWT(): void
     {
-        $_SERVER['REQUEST_URI'] = '/api/authenticate';
 
-        $request = \Laminas\Diactoros\ServerRequestFactory::fromGlobals();
+        $request = ServerRequestFactory::fromGlobals()->withUri(new Uri('/api/authenticate'));
 
+        $this->assertEquals('GET', (string)$request->getMethod());
         $this->assertEquals(401, Dispatch($request)->getStatusCode());
+    }
+
+    /**
+     * @brief testIsNotAllowedToObtainJWT
+     * @description The test is supposed to fail with a 401.
+     * @covers \redcathedral\phpMySQLAdminrest\App
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
+     * @covers redcathedral\phpMySQLAdminrest\Controller\AuthenticationController
+     * @covers \redcathedral\phpMySQLAdminrest\Strategy\InMemoryAuthenticationStrategy
+     * @covers \redcathedral\phpMySQLAdminrest\Implementations\HashSHA256
+     * @covers \redcathedral\phpMySQLAdminrest\Middleware\CloudTrailMiddleware
+     * @covers \redcathedral\phpMySQLAdminrest\Middleware\JWTAuthMiddleware
+     * @covers \redcathedral\phpMySQLAdminrest\Middleware\JSONOnlyMiddleware
+     * 
+     * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController::__construct
+     * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController::listDatabases
+     * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin::__construct
+     * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin::__destruct
+     * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin::close
+     * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin::listDatabases
+     * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController::createDatabase
+     */
+    public function testIsAllowedToCreateDatabase(): void
+    {
+        $jwt = JWTFacade::encode(array(
+            "aud" => "me",
+            "uuid" => "64646464"
+        ));
+
+        $request = ServerRequestFactory::fromGlobals()->withMethod('POST')
+            ->withUri(new Uri('/api/database'))->withAddedHeader('Content-Type', 'application/json')
+            ->withAddedHeader("Authorization", sprintf("Bearer %s", $jwt));
+
+        $this->assertEquals('POST', (string) $request->getMethod());
+
+        $this->assertEquals(200, Dispatch($request)->getStatusCode());
     }
 
     /**
