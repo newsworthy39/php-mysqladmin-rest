@@ -144,6 +144,5 @@ final class UnitTest extends TestCase
     public function tearDown(): void
     {
         $this->mysqladmin->close();
-        $_SERVER = null;
     }
 }

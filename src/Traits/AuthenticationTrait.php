@@ -46,9 +46,9 @@ trait AuthenticationTrait
      * */
     function getBearerToken(ServerRequestInterface $request)
     {
-        $headers = $this->getAuthorizationHeader();
+        $headers = $this->getAuthorizationHeaderFromRequest($request);
         if (empty($headers)) {
-            $headers = $this->getAuthorizationHeaderFromRequest($request);
+            $headers = $this->getAuthorizationHeader();
         }
         // HEADER: Get the access token from the header
         if (!empty($headers)) {
@@ -65,9 +65,9 @@ trait AuthenticationTrait
      * */
     function getBasicToken(ServerRequestInterface $request)
     {
-        $headers = $this->getAuthorizationHeader();
+        $headers = $this->getAuthorizationHeaderFromRequest($request);
         if (empty($headers)) {
-            $headers = $this->getAuthorizationHeaderFromRequest($request);
+            $headers = $this->getAuthorizationHeader();
         }
         // HEADER: Get the access token from the header
         if (!empty($headers)) {

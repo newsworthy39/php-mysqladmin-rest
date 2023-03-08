@@ -3,6 +3,7 @@
 namespace redcathedral\tests;
 
 use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\Diactoros\StreamFactory;
 use Laminas\Diactoros\UriFactory;
 use PHPUnit\Framework\TestCase;
 use function redcathedral\phpMySQLAdminrest\App;
@@ -46,7 +47,7 @@ final class RouteTest extends TestCase
         ));
 
         $request = \Laminas\Diactoros\ServerRequestFactory::fromGlobals()->withUri(new Uri('/api/database'))
-                ->withAddedHeader('Content-Type', 'application/json')->withAddedHeader('Authorization',sprintf("Bearer %s", $jwt));
+            ->withAddedHeader('Content-Type', 'application/json')->withAddedHeader('Authorization', sprintf("Bearer %s", $jwt));
 
         $response = Dispatch($request);
 
@@ -97,6 +98,7 @@ final class RouteTest extends TestCase
      */
     public function testIsAllowedToObtainJWT(): void
     {
+
         // Fetch the implementation
         $username = 'admin';
         $auth = App()->get(\redcathedral\phpMySQLAdminrest\Strategy\InMemoryAuthenticationStrategy::class);
@@ -107,7 +109,7 @@ final class RouteTest extends TestCase
         $request = ServerRequestFactory::fromGlobals()->withUri(new Uri('/api/authenticate'))
             ->withAddedHeader("Authorization", $token);
 
-            $this->assertEquals($token, $request->getHeader("Authorization")[0]);
+        $this->assertEquals($token, $request->getHeader("Authorization")[0]);
         $this->assertEquals(200, Dispatch($request)->getStatusCode());
     }
 
@@ -151,25 +153,80 @@ final class RouteTest extends TestCase
      * 
      * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController::__construct
      * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController::listDatabases
-     * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin::__construct
-     * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin::__destruct
-     * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin::close
-     * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin::listDatabases
+     * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin
      * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController::createDatabase
+     * @covers \redcathedral\phpMySQLAdminrest\Exception\ServerErrorException
+     * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin::hasDatabase
      */
     public function testIsAllowedToCreateDatabase(): void
     {
+        $databasename = "michael";
+        $mysqladmin = App()->get(\redcathedral\phpMySQLAdminrest\MySQLAdmin::class);
+        if ($mysqladmin->hasDatabase($databasename)) {
+            $mysqladmin->deleteDatabase($databasename);
+        }
+
         $jwt = JWTFacade::encode(array(
             "aud" => "me",
             "uuid" => "64646464"
         ));
 
+        $body = (new StreamFactory())->createStream(json_encode(array('name' => $databasename)));
         $request = ServerRequestFactory::fromGlobals()->withMethod('POST')
             ->withUri(new Uri('/api/database'))->withAddedHeader('Content-Type', 'application/json')
-            ->withAddedHeader("Authorization", sprintf("Bearer %s", $jwt));
+            ->withAddedHeader("Authorization", sprintf("Bearer %s", $jwt))->withBody($body);
 
         $this->assertEquals('POST', (string) $request->getMethod());
+        $this->assertEquals(200, Dispatch($request)->getStatusCode());
+    }
 
+    /**
+     * @brief testIsAllowedToDeleteDatabase
+     * @description The test is supposed to fail with a 401.
+     * @covers \redcathedral\phpMySQLAdminrest\App
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
+     * @covers redcathedral\phpMySQLAdminrest\Controller\AuthenticationController
+     * @covers \redcathedral\phpMySQLAdminrest\Strategy\InMemoryAuthenticationStrategy
+     * @covers \redcathedral\phpMySQLAdminrest\Implementations\HashSHA256
+     * @covers \redcathedral\phpMySQLAdminrest\Middleware\CloudTrailMiddleware
+     * @covers \redcathedral\phpMySQLAdminrest\Middleware\JWTAuthMiddleware
+     * @covers \redcathedral\phpMySQLAdminrest\Middleware\JSONOnlyMiddleware
+     * 
+     * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController::__construct
+     * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController::listDatabases
+     * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin::__construct
+     * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin::__destruct
+     * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin::close
+     * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin::listDatabases
+     * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin::deleteDatabase
+     * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController::deleteDatabase
+     * @covers \redcathedral\phpMySQLAdminrest\Exception\ServerErrorException
+     * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin::hasDatabase
+     * @depends testIsAllowedToCreateDatabase
+     * 
+     */
+    public function testIsAllowedToDeleteDatabase(): void
+    {
+
+        $databasename = "michael";
+        $mysqladmin = App()->get(\redcathedral\phpMySQLAdminrest\MySQLAdmin::class);
+        if (!$mysqladmin->hasDatabase($databasename)) {
+            $mysqladmin->createDatabase($databasename);
+        }
+
+        $jwt = JWTFacade::encode(array(
+            "aud" => "me",
+            "uuid" => "64646464"
+        ));
+
+        $request = ServerRequestFactory::fromGlobals()->withMethod('DELETE')
+            ->withUri(new Uri(sprintf("/api/database/%s", $databasename)))->withAddedHeader('Content-Type', 'application/json')
+            ->withAddedHeader("Authorization", sprintf("Bearer %s", $jwt));
+
+        $this->assertEquals('DELETE', (string) $request->getMethod());
         $this->assertEquals(200, Dispatch($request)->getStatusCode());
     }
 
@@ -178,6 +235,5 @@ final class RouteTest extends TestCase
      */
     public function tearDown(): void
     {
-        $_SERVER = null;
     }
 }

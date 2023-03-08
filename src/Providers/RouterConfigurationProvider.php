@@ -29,13 +29,15 @@ class RouterConfigurationProvider extends AbstractServiceProvider
         $router->setStrategy($jsonstrategy);
         $router->middleware(new \redcathedral\phpMySQLAdminrest\Middleware\CloudTrailMiddleware);
 
-        # Allows us, to output as on entire groups.
+        # REST-api for database-handling, using JWTs.
         $router->group('/api', function ($router) {
             $router->map('GET', '/database', [\redcathedral\phpMySQLAdminrest\Controller\DatabaseController::class, 'listDatabases']);
             $router->map('POST', '/database', [\redcathedral\phpMySQLAdminrest\Controller\DatabaseController::class, 'createDatabase'])->middleware(new \redcathedral\phpMySQLAdminrest\Middleware\JSONOnlyMiddleware);
+            $router->map('PUT', '/database/{name}', [\redcathedral\phpMySQLAdminrest\Controller\DatabaseController::class, 'updateDatabase'])->middleware(new \redcathedral\phpMySQLAdminrest\Middleware\JSONOnlyMiddleware);
+            $router->map('DELETE', '/database/{name}', [\redcathedral\phpMySQLAdminrest\Controller\DatabaseController::class, 'deleteDatabase'])->middleware(new \redcathedral\phpMySQLAdminrest\Middleware\JSONOnlyMiddleware);
         })->middleware($container->get(\redcathedral\phpMySQLAdminrest\Middleware\JWTAuthMiddleware::class));
 
-        # Allows us, to use sign-fuctions, etc
+        # Allows us, to issue JWT, using an inmemoryauthenticationprovider.
         $router->group('/api', function ($router) {
             $router->map('GET', '/authenticate', [\redcathedral\phpMySQLAdminrest\Controller\AuthenticationController::class, 'authenticate']);
         });
