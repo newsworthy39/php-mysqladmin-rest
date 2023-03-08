@@ -96,7 +96,7 @@ TBD
 
 This software is released under [BSD-3-Clause](https://github.com/newsworthy39/php-mysqladmin-rest)
 
-## Additional licenses
+## Acknowledgements
 
 * thephpleague/route [MIT License](https://github.com/thephpleague/route)
 * thephpleague/container [MIT License](https://github.com/thephpleague/container)
