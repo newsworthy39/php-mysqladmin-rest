@@ -4,22 +4,33 @@ namespace redcathedral\phpMySQLAdminrest\Traits;
 
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * AuthenticationTrait
+ *
+ * @category Trait
+ * @author   Newsworthy39 <newsworthy39@github.com>
+ * @license  BSD-3 https://spdx.org/licenses/BSD-3-Clause.html
+ */
 trait AuthenticationTrait
 {
-    /** 
+    /**
      * Get header Authorization
      * */
-    function getAuthorizationHeader()
+    private function getAuthorizationHeader()
     {
         $headers = null;
         if (isset($_SERVER['Authorization'])) {
             $headers = trim($_SERVER["Authorization"]);
-        } else if (isset($_SERVER['HTTP_AUTHORIZATION'])) { //Nginx or fast CGI
+        } elseif (isset($_SERVER['HTTP_AUTHORIZATION'])) { //Nginx or fast CGI
             $headers = trim($_SERVER["HTTP_AUTHORIZATION"]);
         } elseif (function_exists('apache_request_headers')) {
             $requestHeaders = apache_request_headers();
-            // Server-side fix for bug in old Android versions (a nice side-effect of this fix means we don't care about capitalization for Authorization)
-            $requestHeaders = array_combine(array_map('ucwords', array_keys($requestHeaders)), array_values($requestHeaders));
+            // Server-side fix for bug in old Android versions (a nice
+            // side-effect of this fix means we don't care about capitalization for Authorization)
+            $requestHeaders = array_combine(
+                array_map('ucwords', array_keys($requestHeaders)),
+                array_values($requestHeaders)
+            );
             //print_r($requestHeaders);
             if (isset($requestHeaders['Authorization'])) {
                 $headers = trim($requestHeaders['Authorization']);
@@ -28,10 +39,10 @@ trait AuthenticationTrait
         return $headers;
     }
 
-    /** 
+    /**
      * Get header Authorization
      * */
-    function getAuthorizationHeaderFromRequest(ServerRequestInterface $request)
+    private function getAuthorizationHeaderFromRequest(ServerRequestInterface $request)
     {
         $headers = $request->getHeader('Authorization');
         if (!empty($headers)) {
@@ -42,9 +53,10 @@ trait AuthenticationTrait
 
     /**
      * get access token from header
+     *
      * @param ServerRequestInterface $request the request
      * */
-    function getBearerToken(ServerRequestInterface $request)
+    private function getBearerToken(ServerRequestInterface $request)
     {
         $headers = $this->getAuthorizationHeaderFromRequest($request);
         if (empty($headers)) {
@@ -60,10 +72,11 @@ trait AuthenticationTrait
     }
 
      /**
-     * get basic access token from header
-     * @param ServerRequestInterface $request the request
-     * */
-    function getBasicToken(ServerRequestInterface $request)
+      * get basic access token from header
+      *
+      * @param ServerRequestInterface $request the request
+      * */
+    private function getBasicToken(ServerRequestInterface $request)
     {
         $headers = $this->getAuthorizationHeaderFromRequest($request);
         if (empty($headers)) {

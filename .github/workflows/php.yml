@@ -41,9 +41,9 @@ jobs:
         else
           echo "All good. No TODOS/FIXMEs found."
         fi
-        
+
     - name: Check linting
-      run: vendor/bin/phpcs src/
+      run: vendor/bin/phpcs --standard=PSR12 src/
 
     # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
     # Docs: https://getcomposer.org/doc/articles/scripts.md

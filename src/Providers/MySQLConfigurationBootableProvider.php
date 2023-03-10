@@ -9,7 +9,10 @@ use mysqli;
 
 class MySQLConfigurationBootableProvider extends AbstractServiceProvider implements BootableServiceProviderInterface
 {
-    private $host, $user, $pass, $dotenv;
+    private $host;
+    private $user;
+    private $pass;
+    private $dotenv;
 
     public function __construct(Dotenv $env)
     {
@@ -18,8 +21,12 @@ class MySQLConfigurationBootableProvider extends AbstractServiceProvider impleme
 
     public function boot(): void
     {
-        $this->dotenv->required(['DATABASE_HOST', 'DATABASE_USER', 'DATABASE_PASS'])->notEmpty();
-        
+        $this->dotenv->required(
+            ['DATABASE_HOST',
+             'DATABASE_USER',
+            'DATABASE_PASS']
+        )->notEmpty();
+
         $this->host = $_ENV['DATABASE_HOST'];
         $this->user = $_ENV['DATABASE_USER'];
         $this->pass = $_ENV['DATABASE_PASS'];
@@ -36,6 +43,9 @@ class MySQLConfigurationBootableProvider extends AbstractServiceProvider impleme
 
     public function register(): void
     {
-        $this->getContainer()->add(mysqli::class)->addArgument($this->host)->addArgument($this->user)->addArgument($this->pass);          
+        $this->getContainer()->add(mysqli::class)
+            ->addArgument($this->host)
+            ->addArgument($this->user)
+            ->addArgument($this->pass);
     }
 }

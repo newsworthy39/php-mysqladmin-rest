@@ -24,7 +24,8 @@ class JSONOnlyMiddleware implements MiddlewareInterface
         }
         foreach ($acceptHeader as $header) {
             if ($header != "application/json") {
-                throw new BadRequestException("Bad request. You must a request with content_type: application/json or */*.");
+                throw new BadRequestException("Bad request. You must a request " .
+                    "with content_type: application/json or */*.");
             }
         }
 

@@ -12,23 +12,30 @@ use redcathedral\phpMySQLAdminrest\Exception\ServerErrorException;
 use PhpParser\Node\Expr\Cast\Object_;
 
 /**
- * @brief databasecontroller
+ * Databasecontroller
+ *
+ * @category Controller
+ * @author   Newsworthy39 <newsworthy39@github.com>
+ * @license  BSD-3 https://spdx.org/licenses/BSD-3-Clause.html
  */
 class DatabaseController
 {
-
     private $mysqladmin;
 
+    /**
+     * @brief construct
+     * @param MySQLAdmin
+     */
     public function __construct(MySQLAdmin $mysqladmin)
     {
         $this->mysqladmin = $mysqladmin;
     }
 
     /**
-     * @brief ListDatabasesAsJson
+     * @brief       ListDatabasesAsJson
      * @description Outputs the databases found at the other end, w/o filters.
      *
-     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function listDatabases(ServerRequestInterface $request, array $args): ResponseInterface
@@ -38,9 +45,9 @@ class DatabaseController
     }
 
     /**
-     * @brief createDatabase
+     * @CreateDatabase
      * @description Creates a database
-     * @body { name: nameofdatabase }
+     * @body        { name: nameofdatabase }
      */
     public function createDatabase(ServerRequestInterface $request, array $args): ResponseInterface
     {
@@ -64,9 +71,9 @@ class DatabaseController
         return $response->withAddedHeader('content-type', 'application/json')->withStatus(200);
     }
     /**
-     * @brief deleteDatabase
+     * @brief       deleteDatabase
      * @description delete a database
-     * @body { name: nameofdatabase }
+     * @body        { name: nameofdatabase }
      */
     public function deleteDatabase(ServerRequestInterface $request, array $args): ResponseInterface
     {
@@ -82,7 +89,9 @@ class DatabaseController
             }
         }
 
-        $response = new HtmlResponse(json_encode(array('status_code' => 404, "reason" => sprintf("Database %s doesn't not exists", $name))));
+        $response = new HtmlResponse(json_encode(array('status_code' => 404, "reason" =>
+                sprintf("Database %s doesn't not exists", $name))));
+
         return $response->withAddedHeader('content-type', 'application/json')->withStatus(404);
     }
 }

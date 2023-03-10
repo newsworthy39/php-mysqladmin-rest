@@ -7,6 +7,8 @@
 Updated workflow, to include phpcs when using dev-dependencies, so github now
 runs a series of checks, including linting and disallows todo/tbd into a complete integration-suite.
 
+This uses the PSR12 standard.
+
 ## [0.0.1] - 2023-03-10 
 
 The very first version ever presented. The rules for the changelog are as follows:

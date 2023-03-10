@@ -21,13 +21,13 @@ class JWTAuthMiddleware implements MiddlewareInterface
         $bearerToken = $this->getBearerToken($request);
 
         if ($bearerToken) {
-            $payload = JWTFacade::verify($bearerToken); 
+            $payload = JWTFacade::verify($bearerToken);
 
-            
+
             // if user has auth, use the request handler to continue to the next
             // middleware and ultimately reach your route callable.
             // Criteria:
-            // Check expiry of field, if missing 
+            // Check expiry of field, if missing
             if (time() < $payload->exp && $payload->iss == JWTFacade::getIssuer()) {
                 return $handler->handle($request);
             }
