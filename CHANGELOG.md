@@ -5,7 +5,7 @@
 ## [0.0.2] - 2023-03-10 
 
 Updated workflow, to include phpcs when using dev-dependencies, so github now
-runs a series of checks, including linting and disallows TODO/tbd into a complete integration-suite.
+runs a series of checks, including linting and disallows todo/tbd into a complete integration-suite.
 
 ## [0.0.1] - 2023-03-10 
 
