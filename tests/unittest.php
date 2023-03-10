@@ -38,7 +38,7 @@ final class UnitTest extends TestCase
      * @covers redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin
      * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
-     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouteConfigurationProvider
      */
     public function testCanCreateDatabase(): void
     {
@@ -50,7 +50,7 @@ final class UnitTest extends TestCase
      * @covers redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin
      * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
-     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouteConfigurationProvider
      */
     public function testCanDeleteDatabase(): void
     {
@@ -62,7 +62,7 @@ final class UnitTest extends TestCase
      * @covers \redcathedral\phpMySQLAdminrest\App
      * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin
      * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
-     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouteConfigurationProvider
      */
     public function testCanListDatabases(): void
     {
@@ -74,7 +74,7 @@ final class UnitTest extends TestCase
      * @covers redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin
      * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
-     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouteConfigurationProvider
      * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
      */
     public function testJWTCanVerify(): void
@@ -96,7 +96,7 @@ final class UnitTest extends TestCase
      * @covers redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin
      * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
-     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouteConfigurationProvider
      * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
      */
     public function testJWTCanDecode(): void
@@ -119,7 +119,7 @@ final class UnitTest extends TestCase
      * @covers redcathedral\phpMySQLAdminrest\MySQLAdmin
      * @covers redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
-     * @covers redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
+     * @covers redcathedral\phpMySQLAdminrest\Providers\RouteConfigurationProvider
      */
     public function testCanGetBasicTokenFromAuthorizationHeader(): void {
         $x = new class() {

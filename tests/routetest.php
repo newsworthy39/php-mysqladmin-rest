@@ -30,7 +30,7 @@ final class RouteTest extends TestCase
      * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin
      * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController
      * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
-     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouteConfigurationProvider
      * @covers \redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
      * @covers \redcathedral\phpMySQLAdminrest\Middleware\CloudTrailMiddleware
@@ -63,7 +63,7 @@ final class RouteTest extends TestCase
      * @covers \redcathedral\phpMySQLAdminrest\MySQLAdmin
      * @covers \redcathedral\phpMySQLAdminrest\Controller\DatabaseController
      * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
-     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouteConfigurationProvider
      * @covers \redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
      * @covers \redcathedral\phpMySQLAdminrest\Middleware\CloudTrailMiddleware
@@ -86,7 +86,7 @@ final class RouteTest extends TestCase
      * @uses \redcathedral\phpMySQLAdminrest\App
      * @covers \redcathedral\phpMySQLAdminrest\Middleware\JWTAuthMiddleware
      * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
-     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouteConfigurationProvider
      * @covers \redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
      * @covers redcathedral\phpMySQLAdminrest\Controller\AuthenticationController
@@ -118,7 +118,7 @@ final class RouteTest extends TestCase
      * @description The test is supposed to fail with a 401.
      * @covers \redcathedral\phpMySQLAdminrest\App
      * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
-     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouteConfigurationProvider
      * @covers \redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
      * @covers redcathedral\phpMySQLAdminrest\Controller\AuthenticationController
@@ -141,7 +141,7 @@ final class RouteTest extends TestCase
      * @description The test is supposed to fail with a 401.
      * @covers \redcathedral\phpMySQLAdminrest\App
      * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
-     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouteConfigurationProvider
      * @covers \redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
      * @covers redcathedral\phpMySQLAdminrest\Controller\AuthenticationController
@@ -185,7 +185,7 @@ final class RouteTest extends TestCase
      * @description The test is supposed to fail with a 401.
      * @covers \redcathedral\phpMySQLAdminrest\App
      * @covers \redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider
-     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider
+     * @covers \redcathedral\phpMySQLAdminrest\Providers\RouteConfigurationProvider
      * @covers \redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider
      * @covers \redcathedral\phpMySQLAdminrest\Facades\JWTFacade
      * @covers redcathedral\phpMySQLAdminrest\Controller\AuthenticationController

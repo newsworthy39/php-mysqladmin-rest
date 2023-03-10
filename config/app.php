@@ -3,7 +3,7 @@
 namespace redcathedral\phpMySQLAdminrest;
 
 use redcathedral\phpMySQLAdminrest\Providers\MySQLConfigurationBootableProvider;
-use redcathedral\phpMySQLAdminrest\Providers\RouterConfigurationProvider;
+use redcathedral\phpMySQLAdminrest\Providers\RouteConfigurationProvider;
 use redcathedral\phpMySQLAdminrest\Providers\JWTAuthenticateProvider;
 use redcathedral\phpMySQLAdminrest\Providers\CloudTrailProvider;
 use redcathedral\phpMySQLAdminrest\Implementations\HashSHA256;
@@ -27,7 +27,7 @@ function App(): \League\Container\Container
          */
         $container->addServiceProvider(new MySQLConfigurationBootableProvider($dotenv));
         $container->addServiceProvider(new JWTAuthenticateProvider($dotenv));
-        $container->addServiceProvider(new RouterConfigurationProvider);
+        $container->addServiceProvider(new RouteConfigurationProvider);
         
         # These are classes, required to our application.
         $container->add(\redcathedral\phpMySQLAdminrest\MySQLAdmin::class)->addArgument(mysqli::class);
