@@ -4,6 +4,7 @@ namespace redcathedral\tests;
 
 use Laminas\Diactoros\ServerRequestFactory;
 use PHPUnit\Framework\TestCase;
+use Psr\Http\Message\ServerRequestInterface;
 use redcathedral\phpMySQLAdminrest\Controller\AuthenticationController;
 use \redcathedral\phpMySQLAdminrest\Facades\JWTFacade;
 use redcathedral\phpMySQLAdminrest\Traits\AuthenticationTrait;
@@ -124,12 +125,16 @@ final class UnitTest extends TestCase
     public function testCanGetBasicTokenFromAuthorizationHeader(): void {
         $x = new class() {
             use AuthenticationTrait;
+
+            public function getBBasicToken(ServerRequestInterface $request) {
+                return $this->getBasicToken($request);
+            }
         };
 
         $token = base64_encode(sprintf("%s:%s", "admin","admin"));
         $request = ServerRequestFactory::fromGlobals()->withAddedHeader("Authorization", sprintf("Basic %s", $token));
 
-        $this->assertEquals($token, $x->getBasicToken($request));
+        $this->assertEquals($token, $x->getBBasicToken($request));
 
 
         list($username, $password) = explode(":", base64_decode($token));
