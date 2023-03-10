@@ -31,18 +31,8 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
-    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
-    # Docs: https://getcomposer.org/doc/articles/scripts.md
-
-    # - name: Run test suite
-    #   run: composer run-script test
-
-  todo:
-    name: Disallow TODOs and FIXMEs inside source-code.
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - run: |
+    - name: Disallow TODOs and FIXMEs inside source-code.
+      run: |
         VAR=$( ! grep --exclude-dir={.git,.github,vendor} -rE "TODO|FIXME")
         if [ $? -gt 0 ] ; then
           echo -e "Commits with TODO/FIXME in source-code is not allowed:"
@@ -51,3 +41,16 @@ jobs:
         else
           echo "All good. No TODOS/FIXMEs found."
         fi
+        
+    - name: Check linting
+      run: vendor/bin/phpcs src/
+
+    # Add a test script to composer.json, for instance: "test": "vendor/bin/phpunit"
+    # Docs: https://getcomposer.org/doc/articles/scripts.md
+
+    # - name: Run test suite
+    #   run: composer run-script test
+
+  
+ 
+
